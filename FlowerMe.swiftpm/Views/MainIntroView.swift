@@ -9,9 +9,9 @@ struct MainIntroView: View {
     
     var body: some View {
         VStack {
-            Text("Send Me a Herbs")
+            Text("Send Me a Flower")
                 .font(.largeTitle)
-            Text("For Tomorrow Me")
+            Text("For Tomorrow myself")
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.75) {
