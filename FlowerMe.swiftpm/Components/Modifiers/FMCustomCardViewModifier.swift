@@ -14,7 +14,7 @@ struct FMCustomCardViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: horizontalPadding)
-            .padding(20)
+            .padding(25)
             .background(
                 RoundedRectangle(cornerRadius: 17, style: .continuous)
                     .fill(
