@@ -29,26 +29,6 @@ struct FMFlowerEachCell: View {
                         BuildFlowerSectionHeader(with: flower)
                     }
                     
-                    // TODO: - 너무 많은 정보는 얼럿 카드로 옮기기
-                    VStack(alignment: .leading) {
-                        Text("Full Bloom in: ")
-                            .font(.headline)
-                        
-                        HStack {
-                            ForEach(0..<flower.tintColors.count, id: \.self) { index in
-                                Circle()
-                                    .fill(flower.tintColors[index])
-                                    .frame(idealWidth: 85, idealHeight: 85)
-                                    .overlay {
-                                        Text(flower.bloomingSeason[index])
-                                            .bold()
-                                    }
-                            }
-                        }
-                    }
-                    .frame(maxHeight: .infinity)
-                    .padding(.bottom, 24)
-                    
                     Divider()
                 }
                 .foregroundColor(.primary)
