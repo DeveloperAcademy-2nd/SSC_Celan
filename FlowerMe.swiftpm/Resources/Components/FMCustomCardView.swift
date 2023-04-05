@@ -15,21 +15,24 @@ struct FMCustomCardView<Content: View>: View {
     var body: some View {
         if let style {
             switch style {
-            case let .mini(horizontalPadding):
-                VStack {
-                    content
-                        .fmCustomCardViewModify(horizontalPadding: horizontalPadding ?? 150)
-                }
-            case let .normal(horizontalPadding):
-                VStack {
-                    content
-                        .fmCustomCardViewModify(horizontalPadding: horizontalPadding ?? 350)
-                }
-            case let .large(horizontalPadding):
-                VStack {
-                    content
-                        .fmCustomCardViewModify(horizontalPadding: horizontalPadding ?? 525)
-                }
+            case let .mini(horizontalPadding, verticalPadding):
+                content
+                    .fmCustomCardViewModify(
+                        horizontalPadding: horizontalPadding ?? 150,
+                        verticalPadding: verticalPadding
+                    )
+            case let .normal(horizontalPadding, verticalPadding):
+                content
+                    .fmCustomCardViewModify(
+                        horizontalPadding: horizontalPadding ?? 350,
+                        verticalPadding: verticalPadding
+                    )
+            case let .large(horizontalPadding, verticalPadding):
+                content
+                    .fmCustomCardViewModify(
+                        horizontalPadding: horizontalPadding ?? 525,
+                        verticalPadding: verticalPadding
+                    )
             }
         }
     }
@@ -44,7 +47,7 @@ struct FMCustomCardView<Content: View>: View {
 }
 
 enum CardViewStyle {
-    case mini(horizontalPadding: CGFloat? = nil)
-    case normal(horizontalPadding: CGFloat? = nil)
-    case large(horizontalPadding: CGFloat? = nil)
+    case mini(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
+    case normal(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
+    case large(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
 }
