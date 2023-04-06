@@ -9,7 +9,18 @@ import SwiftUI
 
 struct PreviewView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView {
+            ForEach(
+                Constants.INTRO_ONBOARDING,
+                id: \.self
+            ) { text in
+                FMCustomCardView {
+                    Text(text)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+        }
+        .tabViewStyle(.page)
     }
 }
 
