@@ -18,25 +18,39 @@ struct FMMainView: View {
                     FMCustomCardView(style: .large()) {
                         Text(text)
                             .font(.title2)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                            .padding(24)
                     }
                 } else {
                     NavigationLink {
                         TabView {
-                            FMFlowerMainView(flowerVM: flowerVM)
-                                .navigationBarBackButtonHidden()
-                                .tabItem {
-                                    Label("home", systemImage: "house")
-                                }
+                            NavigationView {
+                                FMFlowerMainView(flowerVM: flowerVM)
+                                    .navigationBarTitleDisplayMode(.large)
+                                    .navigationTitle("Flowers' Gestalt")
+                            }
+                            .tabItem {
+                                Label("home", systemImage: "house")
+                            }
+                            .navigationViewStyle(.stack)
                             
-                            Text("편지통")
-                                .tabItem {
-                                    Label("post", systemImage: "signpost.right")
-                                }
+                            NavigationView {
+                                Text("Post")
+                                    .navigationTitle("Post")
+                            }
+                            .tabItem {
+                                Label("post", systemImage: "signpost.right")
+                            }
+                            .navigationViewStyle(.stack)
                         }
-                        
+                        .navigationBarBackButtonHidden()
                     } label: {
                         FMCustomCardView(style: .mini()) {
                             Text("Pick a Flower for Yourself")
+                                .frame(alignment: .center)
                         }
                     }
                 }
