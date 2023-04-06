@@ -15,19 +15,22 @@ struct Flower: Hashable {
     var footer: String
     var image: String
     
-    var tintColor: Color {
+    var tintColors: [Color] {
+        var colors = [Color]()
         // TODO: 색 구체화하기
-        if bloomingSeason.contains(Constants.FlowerSeasons.SPRING) {
-            return .yellow
-        } else if bloomingSeason.contains(Constants.FlowerSeasons.SUMMER) {
-            return .orange
-        } else if bloomingSeason.contains(Constants.FlowerSeasons.FALL) {
-            return .brown
-        } else if bloomingSeason.contains(Constants.FlowerSeasons.WINTER) {
-            return .white
+        for season in bloomingSeason {
+            switch season {
+            case Constants.FlowerSeasons.SPRING,
+                Constants.FlowerSeasons.SUMMER,
+                Constants.FlowerSeasons.FALL,
+                Constants.FlowerSeasons.WINTER:
+                colors.append(Color("\(season)Tint"))
+            default:
+                break
+            }
         }
         
-        return .black
+        return colors
     }
     
     init(
