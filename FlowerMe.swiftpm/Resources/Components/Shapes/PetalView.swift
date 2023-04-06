@@ -19,7 +19,7 @@ struct Petal: Shape {
             
             // (200, 0) -> (200, 200*0.2125)
             path.addLine(to: CGPoint(
-                x: rect.width*1.1,
+                x: rect.width*1.2,
                 y: rect.height*0.4515)
             )
             
@@ -38,9 +38,9 @@ struct Petal: Shape {
             
             // Second Bezier Curve
             path.addCurve(
-                to: CGPoint(x: 40, y: 0),
-                control1: CGPoint(x: -20, y: 75),
-                control2: CGPoint(x: 40, y: 65)
+                to: CGPoint(x: 0, y: 0),
+                control1: CGPoint(x: 0, y: 75),
+                control2: CGPoint(x: 75, y: 75)
             )
             
             // To 0,0
@@ -54,11 +54,11 @@ struct PetalView: View {
     var body: some View {
         HStack(spacing: -400) {
             Petal()
-                .frame(width: 400, height: 300)
+                .frame(width: 400, height: 500)
                 .rotationEffect(.degrees(270))
             
             Petal()
-                .frame(width: 400, height: 300)
+                .frame(width: 400, height: 500)
                 .rotationEffect(.degrees(90))
                 .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
         }
