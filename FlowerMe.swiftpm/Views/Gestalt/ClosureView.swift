@@ -21,6 +21,7 @@ struct ClosureView: View {
             HStack(spacing: -350) {
                 // Left
                 HalfFlowerView(
+                    gestaltVM: gestaltVM,
                     topLeadingPetal: $topLeadingPetal,
                     bottomLeadingLeaf: $bottomLeadingLeaf
                 )
@@ -45,6 +46,7 @@ struct ClosureView: View {
                 
                 // Right
                 HalfFlowerReversedView(
+                    gestaltVM: gestaltVM,
                     topTrailingPetal: $topTrailingPetal,
                     bottomTrailingLeaf: $bottomTrailingLeaf
                 )
@@ -90,9 +92,9 @@ struct ClosureView: View {
             maxHeight: .infinity
         )
         .onAppear {
-            isFirstDisplayed.toggle()
-            gestaltVM.isFirstDisplayedDict[Constants.Gestalt.CLOSURE] = true
-//            self.isFirstDisplayed = gestaltVM.isFirstDisplayedDict[Constants.Gestalt.CLOSURE] ?? false
+            if !gestaltVM.isFirstDisplayedClosure {
+                isFirstDisplayed.toggle()
+            }
         }
         .show(isActivated: $isFirstDisplayed) {
             FMCustomCardView(style: .large()) {
@@ -117,10 +119,50 @@ struct ClosureView: View {
                     
                     Button {
                         withAnimation {
+                            gestaltVM.isFirstDisplayedClosure = true
                             isFirstDisplayed.toggle()
                         }
                     } label: {
                         Text("OK!")
+                            .bold()
+                            .padding(24)
+                            .padding(.horizontal, 24)
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                }
+                .padding(24)
+                .frame(maxHeight: .infinity)
+            }
+        }
+        .show(isActivated: $gestaltVM.closurePuzzleCleared) {
+            FMCustomCardView(style: .large()) {
+                VStack {
+                    Text(
+                        """
+                        Conguratulations!
+                        You have cleared The Gestalt Principle of **Closure**!
+                        
+                        The Gestalt Principle of Closure states that
+                        if someone looks at a complex arrangement of visual elements,
+                        they tend to look for a single and recognizable pattern.
+                        
+                        Did you recognize?
+                        with your puzzle pieces, It draws a Tulip!
+                        
+                        And now you have a **Tulip** badge!
+                        """
+                    )
+                    .font(.title2)
+                    .multilineTextAlignment(.leading)
+                    .padding(.bottom, 64)
+                    
+                    Button {
+                        withAnimation {
+                            gestaltVM.closurePuzzleCleared.toggle()
+                        }
+                    } label: {
+                        Text("Hurray!")
                             .bold()
                             .padding(24)
                             .padding(.horizontal, 24)
