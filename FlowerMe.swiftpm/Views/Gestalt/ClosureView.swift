@@ -86,6 +86,22 @@ struct ClosureView: View {
                 maxHeight: .infinity,
                 alignment: .bottom
             )
+            
+            if gestaltVM.closurePuzzleCleared {
+                Text("🌷")
+                    .font(.title2)
+                    .modifier(ParticlesModifier())
+                    .frame(
+                        maxHeight: .infinity
+                    )
+                
+                Text("🌷")
+                    .font(.title2)
+                    .modifier(ParticlesModifier())
+                    .frame(
+                        maxHeight: .infinity
+                    )
+            }
         }
         .frame(
             maxWidth: .infinity,
@@ -94,6 +110,12 @@ struct ClosureView: View {
         .onAppear {
             if !gestaltVM.isFirstDisplayedClosure {
                 isFirstDisplayed.toggle()
+            }
+        }
+        .onDisappear {
+            // 클리어하지 않고 나갔을 땐 배열을 초기화해주자~
+            if gestaltVM.closurePuzzle.count != 4 {
+                gestaltVM.closurePuzzle.removeAll()
             }
         }
         .show(isActivated: $isFirstDisplayed) {
@@ -116,23 +138,27 @@ struct ClosureView: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-                    
-                    Button {
-                        withAnimation {
-                            gestaltVM.isFirstDisplayedClosure = true
-                            isFirstDisplayed.toggle()
-                        }
-                    } label: {
-                        Text("OK!")
-                            .bold()
-                            .padding(24)
-                            .padding(.horizontal, 24)
-                    }
-                    .buttonStyle(.borderedProminent)
 
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
+            }
+            .overlay(alignment: .bottom) {
+                Button {
+                    withAnimation {
+                        gestaltVM.isFirstDisplayedClosure = true
+                        isFirstDisplayed.toggle()
+                    }
+                } label: {
+                    Text("OK!")
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding(24)
+                        .padding(.horizontal, 24)
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                .padding()
             }
         }
         .show(isActivated: $gestaltVM.closurePuzzleCleared) {
@@ -140,7 +166,8 @@ struct ClosureView: View {
                 VStack {
                     Text(
                         """
-                        Conguratulations!
+                        💐 Conguratulations!
+                        
                         You have cleared The Gestalt Principle of **Closure**!
                         
                         The Gestalt Principle of Closure states that
@@ -148,7 +175,7 @@ struct ClosureView: View {
                         they tend to look for a single and recognizable pattern.
                         
                         Did you recognize?
-                        with your puzzle pieces, It draws a Tulip!
+                        with your puzzle pieces, you drawn a **Tulip**!
                         
                         And now you have a **Tulip** badge!
                         """
@@ -156,22 +183,31 @@ struct ClosureView: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-                    
-                    Button {
-                        withAnimation {
-                            gestaltVM.closurePuzzleCleared.toggle()
-                        }
-                    } label: {
-                        Text("Hurray!")
-                            .bold()
-                            .padding(24)
-                            .padding(.horizontal, 24)
-                    }
-                    .buttonStyle(.borderedProminent)
 
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
+            }
+            .onDisappear {
+                withAnimation {
+                    gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
+                }
+            }
+            .overlay(alignment: .bottom) {
+                Button {
+                    withAnimation {
+                        gestaltVM.closurePuzzleCleared.toggle()
+                    }
+                } label: {
+                    Text("Hurray!")
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding(24)
+                        .padding(.horizontal, 24)
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                .padding()
             }
         }
     }
