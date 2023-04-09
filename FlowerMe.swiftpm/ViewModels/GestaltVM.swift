@@ -25,10 +25,14 @@ final class GestaltVM: ObservableObject {
     // Tap to Clear
     @Published var proximityPuzzleCleared: Bool = false
     
+    // badge Counts
+    @Published var dispalyBadgesCount: Int = 0
+    
     var cancellables = Set<AnyCancellable>()
     
     init() {
         addClosurePuzzleSubscriber()
+        addBadgeCountSubscriber()
     }
     
     /**
@@ -47,6 +51,25 @@ final class GestaltVM: ObservableObject {
                 print(results)
                 if results.count == 4 {
                     self?.closurePuzzleCleared = true
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func addBadgeCountSubscriber() {
+        self.$clearedPrinciples
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(_):
+                    break
+                }
+            } receiveValue: { [weak self] results in
+                // 클리어한 내용이 추가될 때마다 뱃지 숫자는 하나씩 늘어난다.
+                // 그후, 뱃지 탭을 들어갈 때마다 모델 밖에서 뱃지 카운트를 0으로 초기화한다.
+                if !results.isEmpty {
+                    self?.dispalyBadgesCount += 1
                 }
             }
             .store(in: &cancellables)
