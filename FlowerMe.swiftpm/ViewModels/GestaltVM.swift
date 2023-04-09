@@ -12,7 +12,7 @@ final class GestaltVM: ObservableObject {
     @Published var clearedPrinciples = [String]()
     
     @Published var isFirstDisplayedClosure: Bool = false
-    @Published var isFirstDisplayedContinuation: Bool = false
+    @Published var isFirstDisplayedContinuity: Bool = false
     @Published var isFirstDisplayedFigrueGround: Bool = false
     @Published var isFirstDisplayedProximity: Bool = false
     @Published var isFirstDisplayedSimilarity: Bool = false
@@ -24,6 +24,9 @@ final class GestaltVM: ObservableObject {
     
     // Tap to Clear
     @Published var proximityPuzzleCleared: Bool = false
+    
+    // Drag to Clear
+    @Published var continuityPuzzleCleared: Bool = false
     
     // badge Counts
     @Published var dispalyBadgesCount: Int = 0
@@ -74,4 +77,46 @@ final class GestaltVM: ObservableObject {
             }
             .store(in: &cancellables)
     }
+}
+
+// MARK: - GESTALT - CONTINUITY
+extension GestaltVM {
+    var path: Path {
+        let wid = UIScreen.main.bounds.width / 5
+        let hei = UIScreen.main.bounds.width / 5 * 4
+        var res = Path()
+        res.move(to: .zero)
+        
+        res.addCurve(
+            to: CGPoint(x: wid, y: hei),
+            control1: CGPoint(x: 0, y: hei * 0.25),
+            control2: CGPoint(x: wid * 1.5, y: hei * 0.75)
+        )
+        
+        return res
+    }
+    
+    var pathReversed: Path {
+        let wid = UIScreen.main.bounds.width / 5
+        let hei = UIScreen.main.bounds.width / 5 * 4
+        var res = Path()
+        res.move(to: CGPoint(x: -wid, y: hei))
+        
+        res.addCurve(
+            to: .zero,
+            control1: CGPoint(x: -(wid * 1.5), y: hei * 0.75),
+            control2: CGPoint(x: 0, y: hei * 0.25)
+        )
+       
+        return res
+    }
+    
+    var startReversed: CGPoint {
+        CGPoint(
+            x: -(UIScreen.main.bounds.width / 5),
+            y: UIScreen.main.bounds.width / 5 * 4
+        )
+    }
+    
+    var duration: Double { 0.5 }
 }
