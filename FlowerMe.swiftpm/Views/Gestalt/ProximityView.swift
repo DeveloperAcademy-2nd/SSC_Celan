@@ -28,114 +28,138 @@ struct ProximityView: View {
     
     var body: some View {
         VStack {
-            LazyVGrid(columns: gridItem, spacing: 10) {
-                ForEach(0..<80, id: \.self) { index in
-                    if !isTapped {
-                        Circle()
-                            .frame(
-                                maxWidth: UIScreen.main.bounds.width / 9
-//                                maxHeight: UIScreen.main.bounds.height / 5
-                            )
-                            .overlay {
-                                if index == randomIndex {
-                                    Button {
-                                        withAnimation {
-                                            isTapped.toggle()
-                                        }
-                                    } label: {
-                                        Text("Tap!")
-                                            .bold()
-                                            .font(.title2)
-                                    }
-                                }
-                            }
-                    } else {
-                        if isEmptyCirclePosition(in: index) {
+            ZStack {
+                LazyVGrid(columns: gridItem, spacing: 10) {
+                    ForEach(0..<80, id: \.self) { index in
+                        if !isTapped {
                             Circle()
-                                .fill(Color(.systemBackground))
                                 .frame(
-                                    maxWidth: UIScreen.main.bounds.width / 9,
-                                    maxHeight: UIScreen.main.bounds.height / 5
+                                    maxWidth: UIScreen.main.bounds.width / 9
+    //                                maxHeight: UIScreen.main.bounds.height / 5
                                 )
                                 .overlay {
-                                    /**
-                                    index가
-                                     18~21, 26~29, 34~37, 42~45, 50-53, 58-61,
-                                     일 때, 랜덤으로 한 곳에만 오버레이 한다.
-                                     */
                                     if index == randomIndex {
-                                        if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
-                                            Button {
-                                                withAnimation {
-                                                    gestaltVM.proximityPuzzleCleared.toggle()
-                                                }
-                                            } label: {
-                                                Text("Cong\nrats!")
-                                                    .bold()
-                                                    .font(.title2)
+                                        Button {
+                                            withAnimation {
+                                                isTapped.toggle()
                                             }
+                                        } label: {
+                                            Text("Tap!")
+                                                .bold()
+                                                .font(.title2)
                                         }
                                     }
                                 }
                         } else {
-                            if checkIfEachSideToShow(in: index) == 1 {
+                            if isEmptyCirclePosition(in: index) {
                                 Circle()
-                                    .fill(Color.yellow)
+                                    .fill(Color(.systemBackground))
                                     .frame(
                                         maxWidth: UIScreen.main.bounds.width / 9,
                                         maxHeight: UIScreen.main.bounds.height / 5
                                     )
-                            } else if checkIfEachSideToShow(in: index) == 2 {
-                                Circle()
-                                    .fill(Color.red)
-                                    .frame(
-                                        maxWidth: UIScreen.main.bounds.width / 9,
-                                        maxHeight: UIScreen.main.bounds.height / 5
-                                    )
-                            } else if checkIfEachSideToShow(in: index) == 3 {
-                                Circle()
-                                    .fill(Color.blue)
-                                    .frame(
-                                        maxWidth: UIScreen.main.bounds.width / 9,
-                                        maxHeight: UIScreen.main.bounds.height / 5
-                                    )
-                            } else if checkIfEachSideToShow(in: index) == 4 {
-                                Circle()
-                                    .fill(Color.green)
-                                    .frame(
-                                        maxWidth: UIScreen.main.bounds.width / 9,
-                                        maxHeight: UIScreen.main.bounds.height / 5
-                                    )
+                                    .overlay {
+                                        /**
+                                        index가
+                                         18~21, 26~29, 34~37, 42~45, 50-53, 58-61,
+                                         일 때, 랜덤으로 한 곳에만 오버레이 한다.
+                                         */
+                                        if index == randomIndex {
+                                            if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
+                                                Button {
+                                                    withAnimation {
+                                                        gestaltVM.proximityPuzzleCleared.toggle()
+                                                    }
+                                                } label: {
+                                                    Text("💐")
+                                                        .bold()
+                                                        .font(.largeTitle)
+                                                }
+                                            }
+                                        }
+                                    }
+                            } else {
+                                if checkIfEachSideToShow(in: index) == 1 {
+                                    Circle()
+                                        .fill(Color.yellow)
+                                        .frame(
+                                            maxWidth: UIScreen.main.bounds.width / 9,
+                                            maxHeight: UIScreen.main.bounds.height / 5
+                                        )
+                                } else if checkIfEachSideToShow(in: index) == 2 {
+                                    Circle()
+                                        .fill(Color.red)
+                                        .frame(
+                                            maxWidth: UIScreen.main.bounds.width / 9,
+                                            maxHeight: UIScreen.main.bounds.height / 5
+                                        )
+                                } else if checkIfEachSideToShow(in: index) == 3 {
+                                    Circle()
+                                        .fill(Color.blue)
+                                        .frame(
+                                            maxWidth: UIScreen.main.bounds.width / 9,
+                                            maxHeight: UIScreen.main.bounds.height / 5
+                                        )
+                                } else if checkIfEachSideToShow(in: index) == 4 {
+                                    Circle()
+                                        .fill(Color.green)
+                                        .frame(
+                                            maxWidth: UIScreen.main.bounds.width / 9,
+                                            maxHeight: UIScreen.main.bounds.height / 5
+                                        )
+                                }
                             }
                         }
                     }
                 }
+                if gestaltVM.proximityPuzzleCleared {
+                    Text("💐")
+                        .font(.title2)
+                        .modifier(ParticlesModifier())
+                        .frame(
+                            maxHeight: .infinity
+                        )
+                    
+                    Text("💐")
+                        .font(.title2)
+                        .modifier(ParticlesModifier())
+                        .frame(
+                            maxHeight: .infinity
+                        )
+                }
             }
             .onAppear {
-                randomIndex = [
-                    Range(18...21).randomElement(),
-                    Range(26...29).randomElement(),
-                    Range(34...37).randomElement(),
-                    Range(42...45).randomElement(),
-                    Range(50...53).randomElement(),
-                    Range(58...61).randomElement()
-                ]
-                    .randomElement()! ?? 0
-                
-                var res = randomIndex
-                
-                // get verticalPosition
-                while res >= 8 {
-                    res -= 8
-                    verticalPosition += 1
+                if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
+                    randomIndex = [
+                        Range(18...21).randomElement(),
+                        Range(26...29).randomElement(),
+                        Range(34...37).randomElement(),
+                        Range(42...45).randomElement(),
+                        Range(50...53).randomElement(),
+                        Range(58...61).randomElement()
+                    ]
+                        .randomElement()! ?? 0
+                    
+                    var res = randomIndex
+                    
+                    // get verticalPosition
+                    while res >= 8 {
+                        res -= 8
+                        verticalPosition += 1
+                    }
+                    
+                    res = randomIndex
+                    horizontalPosition = res % 8
+                    print("가로:\(horizontalPosition), 세로:\(verticalPosition), 중심:\(randomIndex)")
                 }
-                
-                res = randomIndex
-                horizontalPosition = res % 8
-                print("가로:\(horizontalPosition), 세로:\(verticalPosition), 중심:\(randomIndex)")
             }
         }
         .padding()
+        .onAppear {
+            if !gestaltVM.isFirstDisplayedProximity {
+                isFirstDisplayed.toggle()
+            }
+        }
         .show(isActivated: $isFirstDisplayed) {
             FMCustomCardView(style: .large()) {
                 VStack {
@@ -143,7 +167,7 @@ struct ProximityView: View {
                         """
                         Welcome to the Gestalt Principle of **Proximity**!
                         
-                        Here, You can tap random Ball with a "Tap Me!" Message.
+                        Here, You can tap random Ball with a "Tap!" Message.
                         This Gestalt Priciple is one of the simplest one,
                         so you can immediately understand what it means.
                         
@@ -204,11 +228,15 @@ struct ProximityView: View {
                 .padding(24)
                 .frame(maxHeight: .infinity)
             }
+            .onDisappear {
+                withAnimation {
+                    gestaltVM.clearedPrinciples.append(Constants.Gestalt.PROXIMITY)
+                }
+            }
             .overlay(alignment: .bottom) {
                     Button {
                         withAnimation {
                             gestaltVM.proximityPuzzleCleared.toggle()
-                            gestaltVM.clearedPrinciples.append(Constants.Gestalt.PROXIMITY)
                         }
                     } label: {
                         Text("Hurray!")
