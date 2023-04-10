@@ -25,7 +25,7 @@ struct FMShowCustomAlert<CustomAlert: View>: ViewModifier {
             
             ZStack {
                 if isActiveted.wrappedValue {
-                    Color(.systemGray2)
+                    Color(.systemGray4)
                         .opacity(0.4)
                         .frame(
                             maxWidth: .infinity,

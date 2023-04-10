@@ -38,6 +38,7 @@ struct FMCustomCardViewModifier: ViewModifier {
             x: 8,
             y: 5
         )
+        .padding()
         .overlay {
             content
         }
