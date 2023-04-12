@@ -9,10 +9,10 @@ import SwiftUI
 
 struct TransformableFlower: Shape {
     // How much to move this petal away from the center
-    var petalOffset: Double = -20
+    var petalOffset: CGFloat = -20
     
     // How wide to make each petal
-    var petalWidth: Double = 100
+    var petalWidth: CGFloat = 100
     
     func path(in rect: CGRect) -> Path {
         // The path that will hold all petals
