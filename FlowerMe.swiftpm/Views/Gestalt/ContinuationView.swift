@@ -27,19 +27,15 @@ struct ContinuationView: View {
                         width: UIScreen.main.bounds.width / 5,
                         height: UIScreen.main.bounds.width / 5 * 4
                     )
-//                    .overlay {
-//                        Circle()
-//                            .foregroundColor(.gray)
-//                            .frame(width: 30)
-//                            .modifier(Moving(time: timeMax, path: gestaltVM.path))
-//                            .animation(.easeInOut(duration: gestaltVM.duration), value: timeMax)
-//                    }
-//                    .overlay(alignment: .bottomTrailing) {
-//                        // 좌상단 꽃
-//                        Text("좌하단 뿌리")
-//                            .foregroundColor(.red)
-//                    }
+                    .overlay {
+                        Circle()
+                            .foregroundColor(.gray)
+                            .frame(width: 30)
+                            .modifier(Moving(time: timeMax, path: gestaltVM.path))
+                            .animation(.easeInOut(duration: gestaltVM.duration), value: timeMax)
+                    }
                 
+                // Solid
                 CurvedFlowerStemReversed()
                     .stroke(
                         style:
@@ -48,28 +44,100 @@ struct ContinuationView: View {
                                 lineJoin: .round
                             )
                     )
+                    .foregroundColor(
+                        timeMax < 0.4
+                        ? .primary
+                        : .green
+                    )
                     .frame(
                         width: UIScreen.main.bounds.width / 5,
                         height: UIScreen.main.bounds.width / 5 * 4
                     )
                     .overlay {
-                        Circle()
-                            .frame(width: 30)
-                            .gesture(
-                                DragGesture(minimumDistance: 0.0)
-                                    .onChanged { newValue in
-                                        if newValue.startLocation.y.isLessThanOrEqualTo(newValue.location.y), timeMax < 1.0 {
-
-                                        } else if newValue.location.y.isLessThanOrEqualTo(newValue.startLocation.y), timeMax < 1.0 {
-                                            timeMax += -(newValue.translation.height / 50_000)
-                                        }
+                        // TODO: - 나중에 timeMax 일 때, 탭해서 카드 띄우도록
+                        if timeMax > 1.0 || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
+                            Button {
+                                withAnimation {
+                                    if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
+                                        gestaltVM.continuityPuzzleCleared = true
                                     }
-                            )
-                            .modifier(Moving(time: timeMax, path: gestaltVM.pathReversed, start: gestaltVM.startReversed))
-                            .animation(.easeInOut(duration: gestaltVM.duration), value: timeMax)
+                                }
+                            } label: {
+                                Circle()
+                                    .fill(Color.yellow)
+                                    .padding()
+                                    .frame(
+                                        maxWidth: UIScreen.main.bounds.width / 16,
+                                        maxHeight: UIScreen.main.bounds.height / 16
+                                    )
+                            }
+                            .overlay {
+                                Circle()
+                                    .stroke(
+                                        style: StrokeStyle(
+                                            lineWidth: 3, dash: [5]
+                                        )
+                                    )
+                            }
+                            .position(.zero)
+                        } else {
+                            Circle()
+                                .frame(width: 30)
+                                .foregroundColor(
+                                    timeMax < 0.4
+                                    ? .primary
+                                    : .yellow
+                                )
+                                .gesture(
+                                    DragGesture(minimumDistance: 0.0)
+                                        .onChanged { newValue in
+                                            if newValue.startLocation.y.isLessThanOrEqualTo(newValue.location.y), timeMax < 1.0 {
+                                                
+                                            } else if newValue.location.y.isLessThanOrEqualTo(newValue.startLocation.y), timeMax < 1.0 {
+                                                withAnimation {
+                                                    timeMax += -(newValue.translation.height / 45_000)
+                                                }
+                                            }
+                                        }
+                                )
+                                .modifier(Moving(time: timeMax, path: gestaltVM.pathReversed, start: gestaltVM.startReversed))
+                                .animation(.easeInOut(duration: gestaltVM.duration), value: timeMax)
+                        }
                     }
-                    .overlay(alignment: .topLeading) {
-                        Text("우상단 꽃")
+                    .background {
+                        TransformableFlower(
+                            petalOffset: timeMax * 20,
+                            petalWidth: timeMax * 30
+                        )
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    .red,
+                                    .red,
+                                    .white
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .position(.zero)
+                    }
+                    .overlay {
+                        if timeMax < 0.15 {
+                            Text("Drag This Circle")
+                                .bold()
+                                .position(
+                                    x: -(UIScreen.main.bounds.width / 5 * 1.6),
+                                    y: UIScreen.main.bounds.width / 5 * 4
+                                )
+                            
+                            Text("To Here!")
+                                .bold()
+                                .position(
+                                    x: UIScreen.main.bounds.width / 7,
+                                    y: .zero
+                                )
+                        }
                     }
             }
             
@@ -97,18 +165,22 @@ struct ContinuationView: View {
                 timeMax = 1.0
             }
         }
-        .onChange(of: timeMax, perform: { newValue in
-            if timeMax > 1.0, !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
-                gestaltVM.continuityPuzzleCleared = true
-            }
-        })
         .show(isActivated: $isFirstDisplayed) {
             FMCustomCardView(style: .large()) {
                 VStack {
                     Text(
                         """
                         Welcome to the Gestalt Principle of **Continuity**!
-                        내용 바꾸는 상상
+                        
+                        Here, You can drag a circle at the bottom
+                        of the solid curve.
+                        When You drag it to the top,
+                        you can bloom a nice Rose.
+                        But wait, there is another dashed line!
+                        
+                        Is that dashed line the same group with solid line?
+                        Let's find out!
+                        Drag a Circle and bloom Your Rose!
                         """
                     )
                     .font(.title2)
@@ -146,9 +218,14 @@ struct ContinuationView: View {
                         
                         You have cleared The Gestalt Principle of **Continuity**!
                         
-                        내용바꾸기
+                        The Gestalt Principle of Continuity states that
+                        objects will be grouped as a whole
+                        if they are co-linear, or follow a direction.
                         
-                        And now you have a **Garden** badge!
+                        As you pressed a Circle, drag and follow the line,
+                        you finally bloom a Rose!
+                        
+                        And this is a **Rose** badge for You!
                         """
                     )
                     .font(.title2)
