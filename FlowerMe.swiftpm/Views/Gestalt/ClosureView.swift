@@ -18,6 +18,32 @@ struct ClosureView: View {
     
     var body: some View {
         ZStack {
+            if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                Button {
+                    withAnimation {
+                        if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                            gestaltVM.closurePuzzleCleared = true
+                            gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
+                        }
+                    }
+                } label: {
+                    Text("🌷")
+                        .font(.system(size: UIScreen.main.bounds.width / 10))
+                        .frame(
+                            maxWidth: UIScreen.main.bounds.width / 8,
+                            maxHeight: UIScreen.main.bounds.height / 8
+                        )
+                }
+                .overlay {
+                    Circle()
+                        .stroke(
+                            style: StrokeStyle(
+                                lineWidth: 3, dash: [5]
+                            )
+                        )
+                }
+            }
+            
             HStack(spacing: -350) {
                 // Left
                 HalfFlowerView(
@@ -27,20 +53,24 @@ struct ClosureView: View {
                 )
                 .overlay {
                     // Guide Line
-                    VStack(spacing: 100) {
-                        Petal()
-                            .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                            .frame(width: 400, height: 400)
-                            .rotationEffect(.degrees(270))
+                    if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
                         
-                        Leaf()
-                            .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                            .frame(width: 200, height: 200)
-                            .rotationEffect(.degrees(180))
-                            .rotation3DEffect(
-                                .degrees(180),
-                                axis: (x: -1, y: 1, z: 0)
-                            )
+                    } else {
+                        VStack(spacing: 100) {
+                            Petal()
+                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                .frame(width: 400, height: 400)
+                                .rotationEffect(.degrees(270))
+                            
+                            Leaf()
+                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                .frame(width: 200, height: 200)
+                                .rotationEffect(.degrees(180))
+                                .rotation3DEffect(
+                                    .degrees(180),
+                                    axis: (x: -1, y: 1, z: 0)
+                                )
+                        }
                     }
                 }
                 
@@ -51,32 +81,60 @@ struct ClosureView: View {
                     bottomTrailingLeaf: $bottomTrailingLeaf
                 )
                 .overlay {
-                    // Guide Line
-                    VStack(spacing: 100) {
-                        Petal()
-                            .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                            .frame(width: 400, height: 400)
-                            .rotationEffect(.degrees(270))
+                    if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
                         
-                        Leaf()
-                            .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                            .frame(width: 200, height: 200)
-                            .rotationEffect(.degrees(180))
-                            .rotation3DEffect(
-                                .degrees(180),
-                                axis: (x: -1, y: 1, z: 0)
-                            )
+                    } else {
+                        VStack(spacing: 100) {
+                            Petal()
+                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                .frame(width: 400, height: 400)
+                                .rotationEffect(.degrees(270))
+                            
+                            Leaf()
+                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                .frame(width: 200, height: 200)
+                                .rotationEffect(.degrees(180))
+                                .rotation3DEffect(
+                                    .degrees(180),
+                                    axis: (x: -1, y: 1, z: 0)
+                                )
+                        }
+                        .rotation3DEffect(
+                            .degrees(180),
+                            axis: (x: 0, y: 1, z: 0)
+                        )
                     }
-                    .rotation3DEffect(
-                        .degrees(180),
-                        axis: (x: 0, y: 1, z: 0)
-                    )
                 }
             }
             
             // 꽃대
             Group {
                 Rectangle()
+                    .fill(
+                        gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE)
+                        ? LinearGradient(
+                            gradient:
+                                Gradient(
+                                    colors: [
+                                        .green,
+                                        .green,
+                                        .white
+                                    ]
+                                ),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        : LinearGradient(
+                            gradient:
+                                Gradient(
+                                    colors: [
+                                        .black
+                                    ]
+                                ),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                     .frame(
                         width: UIScreen.main.bounds.width / 90,
                         height: UIScreen.main.bounds.height / 2.75
@@ -88,19 +146,15 @@ struct ClosureView: View {
             )
             
             if gestaltVM.closurePuzzleCleared {
-                Text("🌷")
+                MiniFlower(tintColor: .red, budColor: .white, radian: 2)
                     .font(.title2)
                     .modifier(ParticlesModifier())
                     .frame(
                         maxHeight: .infinity
                     )
                 
-                Text("🌷")
-                    .font(.title2)
-                    .modifier(ParticlesModifier())
-                    .frame(
-                        maxHeight: .infinity
-                    )
+                FMFlower(tintColor: .yellow, budColor: .white)
+                    .modifier(ParticlesModifier(numberOfParticles: 7))
             }
         }
         .frame(
@@ -175,7 +229,7 @@ struct ClosureView: View {
                         they tend to look for a single and recognizable pattern.
                         
                         Did you recognize?
-                        with your puzzle pieces, you drawn a **Tulip**!
+                        With your puzzle pieces, you drawn a **Tulip**!
                         
                         And now you have a **Tulip** badge!
                         """
@@ -187,11 +241,6 @@ struct ClosureView: View {
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
-            }
-            .onDisappear {
-                withAnimation {
-                    gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
-                }
             }
             .overlay(alignment: .bottom) {
                 Button {
@@ -210,5 +259,11 @@ struct ClosureView: View {
                 .padding()
             }
         }
+    }
+}
+
+struct ClosurePreview: PreviewProvider {
+    static var previews: some View {
+        ClosureView(gestaltVM: GestaltVM())
     }
 }
