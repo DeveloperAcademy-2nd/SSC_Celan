@@ -18,8 +18,9 @@ final class GestaltVM: ObservableObject {
     @Published var isFirstDisplayedSimilarity: Bool = false
     @Published var isFirstDisplayedPragnanz: Bool = false
     
-    // 4 True == Clear
+    // Tap, 4 True == Clear
     @Published var closurePuzzle: [Bool] = []
+    @Published var isClosurePuzzleDone: Bool = false
     @Published var closurePuzzleCleared: Bool = false
     
     // Tap to Clear
@@ -27,6 +28,15 @@ final class GestaltVM: ObservableObject {
     
     // Drag to Clear
     @Published var continuityPuzzleCleared: Bool = false
+    
+    // Long Press to Clear
+    @Published var similarityPuzzleCleared: Bool = false
+    
+    // Slide to Clear
+    @Published var pragnanzPuzzleCleared: Bool = false
+    
+    // Long Press to Clear
+    @Published var figureGroundPuzzleCleared: Bool = false
     
     // badge Counts
     @Published var dispalyBadgesCount: Int = 0
@@ -51,9 +61,8 @@ final class GestaltVM: ObservableObject {
                     break
                 }
             } receiveValue: { [weak self] results in
-                print(results)
                 if results.count == 4 {
-                    self?.closurePuzzleCleared = true
+                    self?.isClosurePuzzleDone = true
                 }
             }
             .store(in: &cancellables)
