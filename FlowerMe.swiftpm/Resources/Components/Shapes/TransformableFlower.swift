@@ -14,18 +14,29 @@ struct TransformableFlower: Shape {
     // How wide to make each petal
     var petalWidth: CGFloat = 100
     
+    init(
+        petalOffset: CGFloat,
+        petalWidth: CGFloat
+    ) {
+        self.petalOffset = petalOffset
+        self.petalWidth = petalWidth
+    }
+    
     func path(in rect: CGRect) -> Path {
         // The path that will hold all petals
         var path = Path()
         
-        // Count from 0 up to pi * 2, moving up pi / 8 each time
+        // Count from 0 up to pi * 2,
+        // moving up pi / 6 each time
         for number in stride(
             from: 0,
             to: Double.pi * 2,
             by: Double.pi / 6
         ) {
             // rotate the petal by the current value of our loop
-            let rotation = CGAffineTransform(rotationAngle: number)
+            let rotation = CGAffineTransform(
+                rotationAngle: number
+            )
             
             // move the petal to be at the center of our view
             let position = rotation.concatenating(
@@ -58,7 +69,35 @@ struct TransformableFlower: Shape {
 }
 
 struct Transform: PreviewProvider {
+    
     static var previews: some View {
-        TransformableFlower()
+        TempView()
+    }
+}
+
+struct TempView: View {
+    @State private var petalWidth: CGFloat = 40.0
+    @State private var petalOffset: CGFloat = -40.0
+    
+    var body: some View {
+        VStack {
+            TransformableFlower(
+                petalOffset: petalOffset,
+                petalWidth: petalWidth
+            )
+            .fill(
+                .red,
+                style: .init(
+                    eoFill: true
+                )
+            )
+            
+            Slider(value: $petalWidth, in: 40...100)
+                .padding()
+            
+            Slider(value: $petalOffset, in: -40...60)
+                .padding()
+            
+        }
     }
 }
