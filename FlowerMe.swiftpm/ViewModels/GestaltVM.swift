@@ -37,6 +37,10 @@ final class GestaltVM: ObservableObject {
     
     // Long Press to Clear
     @Published var figureGroundPuzzleCleared: Bool = false
+    @Published var backgroundPetalList: [Int] = (0..<30).map { $0 }
+    
+    // Manually Notify the changes to the view
+    var backgroundBlurIntensity: CurrentValueSubject<CGFloat, Never> = .init(10)
     
     // badge Counts
     @Published var dispalyBadgesCount: Int = 0
