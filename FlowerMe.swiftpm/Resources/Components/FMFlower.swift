@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct FMFlower: View {
+    let tintColor: Color
+    let budColor: Color
+    
     var body: some View {
         ZStack {
             Group {
@@ -30,30 +33,36 @@ struct FMFlower: View {
                 FlowerPetal()
                     .rotationEffect(.degrees(30))
             }
+            .opacity(1.0)
+            .foregroundColor(tintColor)
            
-           
-            FlowerPetal()
-                .rotationEffect(.degrees(210))
-            FlowerPetal()
-                .rotationEffect(.degrees(240))
-            FlowerPetal()
-                .rotationEffect(.degrees(250))
-            FlowerPetal()
-                .rotationEffect(.degrees(280))
-            FlowerPetal()
-                .rotationEffect(.degrees(290))
-            FlowerPetal()
-                .rotationEffect(.degrees(310))
-            FlowerPetal()
-                .rotationEffect(.degrees(330))
-            FlowerPetal()
-                .rotationEffect(.degrees(360))
+            Group {
+                FlowerPetal()
+                    .rotationEffect(.degrees(210))
+                FlowerPetal()
+                    .rotationEffect(.degrees(240))
+                FlowerPetal()
+                    .rotationEffect(.degrees(250))
+                FlowerPetal()
+                    .rotationEffect(.degrees(280))
+                FlowerPetal()
+                    .rotationEffect(.degrees(290))
+                FlowerPetal()
+                    .rotationEffect(.degrees(310))
+                FlowerPetal()
+                    .rotationEffect(.degrees(330))
+                FlowerPetal()
+                    .rotationEffect(.degrees(360))
+            }
+            .opacity(1.0)
+            .foregroundColor(tintColor)
             
             Circle()
-                .fill(Color.yellow)
+                .fill(budColor)
                 .frame(width: 90)
                 .shadow(radius: 10)
         }
+        
     }
 }
 
@@ -61,17 +70,10 @@ struct FlowerPetal: View {
     var body: some View {
         Ellipse()
             .trim(from: 0.25, to: 0.75)
-            .fill(.red)
             .frame(
                 width: 200,
                 height: 60
             )
            
-    }
-}
-
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        FMFlower()
     }
 }
