@@ -9,12 +9,12 @@ struct MainIntroView: View {
     
     var body: some View {
         VStack {
-            Text("Send Me a Flower")
+            Text("Flowers Gestalt")
                 .font(.largeTitle)
-            Text("For Tomorrow myself")
+            Text("For All Junior Designers 🧑🏻‍🎨")
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.75) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 toMainViewTrigger.toggle()
             }
         }

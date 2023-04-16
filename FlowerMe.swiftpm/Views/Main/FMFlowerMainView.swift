@@ -9,10 +9,11 @@ import SwiftUI
 
 struct FMFlowerMainView: View {
     @ObservedObject var flowerVM: FlowerVM
+    @ObservedObject var gestaltVM: GestaltVM
     @State private var isDetailCardViewDisplayed: Bool = false
     let gridSystem: [GridItem] = [
-        .init(.flexible(), spacing: 50),
-        .init(.flexible(), spacing: 50),
+        .init(.flexible(), spacing: 25),
+        .init(.flexible(), spacing: 25),
     ]
     
     var body: some View {
@@ -22,100 +23,39 @@ struct FMFlowerMainView: View {
                     NavigationLink {
                         switch text {
                         case Constants.Gestalt.SIMILARITY:
-                            SimilarityView()
-                        case Constants.Gestalt.CONTINUATION:
-                            ContinuationView()
+                            SimilarityView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Similarity")
+                        case Constants.Gestalt.CONTINUITY:
+                            ContinuationView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Continuity")
                         case Constants.Gestalt.CLOSURE:
-                            ClosureView()
+                            ClosureView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Closure")
                         case Constants.Gestalt.PROXIMITY:
-                            ProximityView()
+                            ProximityView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Proximity")
                         case Constants.Gestalt.FIGUREGROUND:
-                            FigureGroundView()
+                            FigureGroundView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Figure And Ground")
                         case Constants.Gestalt.PRAGNANZ:
-                            PragnanzView()
+                            PragnanzView(gestaltVM: gestaltVM)
+                                .navigationTitle("Principle of Prägnanz")
                         default:
                             EmptyView()
                         }
                     } label: {
                         FMCustomCardView(
-                            style: .mini(
-                                horizontalPadding: 225,
-                                verticalPadding: 225
-                            )
+                            style: .normal()
                         ) {
-                            Text(text)
+                            Text("**\(text)**")
                                 .font(.title)
+                                .padding()
                         }
                     }
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 25)
                 }
             }
             .padding(.top, 32)
         }
-        .padding(.horizontal, 32)
-        // TODO: - show Method에서 라벨링 할 뷰 분리 필요, 아마 꽃의 정보가 될 듯
-//        .show(isActivated: $isDetailCardViewDisplayed) {
-//            FMCustomCardView(style: .large()) {
-//                if let currentFlower = flowerVM.currentFlower {
-//                    VStack {
-//                        // MARK: - Flower Name
-//                        VStack(alignment: .leading) {
-//                            Text(currentFlower.name)
-//                                .font(.title)
-//
-//                            Divider()
-//                        }
-//                        .frame(
-//                            maxWidth: .infinity,
-//                            alignment: .topLeading
-//                        )
-//                        .background(content: {
-//                            Color.red
-//                        })
-//
-//                        VStack(alignment: .leading) {
-//                            // MARK: - Image Assets will be here
-//                            Image(systemName: "tree")
-//                        }
-//                        .frame(
-//                            maxWidth: .infinity,
-//                            alignment: .topLeading
-//                        )
-//                        .background(content: {
-//                            Color.blue
-//                        })
-//
-//                        // MARK: - Full Bloom Section
-//                        VStack(alignment: .leading) {
-//                            Text("Full Bloom in: ")
-//                                .font(.headline)
-//
-//                            HStack {
-//
-//                                ForEach(0..<currentFlower.tintColors.count, id: \.self) { index in
-//                                    Circle()
-//                                        .fill(currentFlower.tintColors[index])
-//                                        .frame(width: 85, height: 85)
-//                                        .overlay {
-//                                            Text(currentFlower.bloomingSeason[index])
-//                                                .bold()
-//                                        }
-//                                }
-//                            }
-//                        }
-//                        .frame(
-//                            maxWidth: .infinity,
-//                            maxHeight: .infinity,
-//                            alignment: .bottomLeading
-//                        )
-//                        .background(content: {
-//                            Color.yellow
-//                        })
-//                    }
-//
-//                    .padding(.vertical, 24)
-//                }
-//            }
-//        }
     }
 }

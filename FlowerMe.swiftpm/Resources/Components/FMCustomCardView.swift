@@ -18,19 +18,19 @@ struct FMCustomCardView<Content: View>: View {
             case let .mini(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? 150,
+                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 4,
                         verticalPadding: verticalPadding
                     )
             case let .normal(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? 350,
+                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 2.5,
                         verticalPadding: verticalPadding
                     )
             case let .large(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? 525,
+                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 1.5,
                         verticalPadding: verticalPadding
                     )
             }
@@ -50,4 +50,11 @@ enum CardViewStyle {
     case mini(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
     case normal(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
     case large(horizontalPadding: CGFloat? = nil, verticalPadding: CGFloat? = nil)
+}
+
+
+struct PreviewView_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewView()
+    }
 }
