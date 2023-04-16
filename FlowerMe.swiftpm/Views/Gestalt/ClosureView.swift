@@ -17,150 +17,180 @@ struct ClosureView: View {
     @State private var isFirstDisplayed: Bool = false
     
     var body: some View {
-        ZStack {
-            if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                Button {
-                    withAnimation {
-                        if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                            gestaltVM.closurePuzzleCleared = true
-                            gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
+        VStack {
+            if gestaltVM.closurePuzzle.count == 2 {
+                Text("As You fit the pieces, It has gap and it draws a Tulip!")
+                    .bold()
+                    .font(.title)
+                    .foregroundColor(.accentColor)
+                    .multilineTextAlignment(.center)
+            } else if gestaltVM.closurePuzzle.count == 3 {
+                Text("Because your brain fills those gaps!")
+                    .bold()
+                    .font(.title)
+                    .foregroundColor(.accentColor)
+                    .multilineTextAlignment(.center)
+            } else if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+               Text("You have cleared this Puzzle!")
+                   .bold()
+                   .font(.title)
+                   .foregroundColor(.accentColor)
+                   .multilineTextAlignment(.center)
+           } else if !gestaltVM.isClosurePuzzleDone {
+                Text("Tap the pieces to make them fit into the space!")
+                    .bold()
+                    .font(.title)
+                    .foregroundColor(.accentColor)
+            } else if gestaltVM.isClosurePuzzleDone {
+                Text("And You did it! You finally make a tulip with a gaps!")
+                    .bold()
+                    .font(.title)
+                    .foregroundColor(.accentColor)
+                    .multilineTextAlignment(.center)
+            }
+            
+            ZStack {
+                if gestaltVM.isClosurePuzzleDone
+                    || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                    Button {
+                        withAnimation {
+                            if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                                gestaltVM.closurePuzzleCleared = true
+                            }
+                        }
+                    } label: {
+                        Text("🌷")
+                            .font(.system(size: UIScreen.main.bounds.width / 10))
+                            .frame(
+                                maxWidth: UIScreen.main.bounds.width / 8,
+                                maxHeight: UIScreen.main.bounds.height / 8
+                            )
+                    }
+                    .overlay {
+                        Circle()
+                            .stroke(
+                                style: StrokeStyle(
+                                    lineWidth: 3, dash: [5]
+                                )
+                            )
+                    }
+                }
+                
+                HStack(spacing: -350) {
+                    // Left
+                    HalfFlowerView(
+                        gestaltVM: gestaltVM,
+                        topLeadingPetal: $topLeadingPetal,
+                        bottomLeadingLeaf: $bottomLeadingLeaf
+                    )
+                    .overlay {
+                        // Guide Line
+                        if gestaltVM.isClosurePuzzleDone
+                            || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                            
+                        } else {
+                            VStack(spacing: 100) {
+                                Petal()
+                                    .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                    .frame(width: 400, height: 400)
+                                    .rotationEffect(.degrees(270))
+                                
+                                Leaf()
+                                    .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                    .frame(width: 200, height: 200)
+                                    .rotationEffect(.degrees(180))
+                                    .rotation3DEffect(
+                                        .degrees(180),
+                                        axis: (x: -1, y: 1, z: 0)
+                                    )
+                            }
                         }
                     }
-                } label: {
-                    Text("🌷")
-                        .font(.system(size: UIScreen.main.bounds.width / 10))
-                        .frame(
-                            maxWidth: UIScreen.main.bounds.width / 8,
-                            maxHeight: UIScreen.main.bounds.height / 8
-                        )
+                    
+                    // Right
+                    HalfFlowerReversedView(
+                        gestaltVM: gestaltVM,
+                        topTrailingPetal: $topTrailingPetal,
+                        bottomTrailingLeaf: $bottomTrailingLeaf
+                    )
+                    .overlay {
+                        if gestaltVM.isClosurePuzzleDone
+                            || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                            
+                        } else {
+                            VStack(spacing: 100) {
+                                Petal()
+                                    .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                    .frame(width: 400, height: 400)
+                                    .rotationEffect(.degrees(270))
+                                
+                                Leaf()
+                                    .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
+                                    .frame(width: 200, height: 200)
+                                    .rotationEffect(.degrees(180))
+                                    .rotation3DEffect(
+                                        .degrees(180),
+                                        axis: (x: -1, y: 1, z: 0)
+                                    )
+                            }
+                            .rotation3DEffect(
+                                .degrees(180),
+                                axis: (x: 0, y: 1, z: 0)
+                            )
+                        }
+                    }
                 }
-                .overlay {
-                    Circle()
-                        .stroke(
-                            style: StrokeStyle(
-                                lineWidth: 3, dash: [5]
+                
+                // 꽃대
+                Group {
+                    Rectangle()
+                        .fill(
+                            gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE)
+                            ? LinearGradient(
+                                gradient:
+                                    Gradient(
+                                        colors: [
+                                            .green,
+                                            .green,
+                                            .white
+                                        ]
+                                    ),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            : LinearGradient(
+                                gradient:
+                                    Gradient(
+                                        colors: [
+                                            .black
+                                        ]
+                                    ),
+                                startPoint: .top,
+                                endPoint: .bottom
                             )
                         )
+                        .frame(
+                            width: UIScreen.main.bounds.width / 90,
+                            height: UIScreen.main.bounds.height / 2.75
+                        )
                 }
-            }
-            
-            HStack(spacing: -350) {
-                // Left
-                HalfFlowerView(
-                    gestaltVM: gestaltVM,
-                    topLeadingPetal: $topLeadingPetal,
-                    bottomLeadingLeaf: $bottomLeadingLeaf
+                .frame(
+                    maxHeight: .infinity,
+                    alignment: .bottom
                 )
-                .overlay {
-                    // Guide Line
-                    if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                        
-                    } else {
-                        VStack(spacing: 100) {
-                            Petal()
-                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                .frame(width: 400, height: 400)
-                                .rotationEffect(.degrees(270))
-                            
-                            Leaf()
-                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                .frame(width: 200, height: 200)
-                                .rotationEffect(.degrees(180))
-                                .rotation3DEffect(
-                                    .degrees(180),
-                                    axis: (x: -1, y: 1, z: 0)
-                                )
-                        }
-                    }
-                }
                 
-                // Right
-                HalfFlowerReversedView(
-                    gestaltVM: gestaltVM,
-                    topTrailingPetal: $topTrailingPetal,
-                    bottomTrailingLeaf: $bottomTrailingLeaf
-                )
-                .overlay {
-                    if gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                        
-                    } else {
-                        VStack(spacing: 100) {
-                            Petal()
-                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                .frame(width: 400, height: 400)
-                                .rotationEffect(.degrees(270))
-                            
-                            Leaf()
-                                .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                .frame(width: 200, height: 200)
-                                .rotationEffect(.degrees(180))
-                                .rotation3DEffect(
-                                    .degrees(180),
-                                    axis: (x: -1, y: 1, z: 0)
-                                )
-                        }
-                        .rotation3DEffect(
-                            .degrees(180),
-                            axis: (x: 0, y: 1, z: 0)
-                        )
-                    }
+                if gestaltVM.closurePuzzleCleared {
+                    Text("🌷")
+                        .font(.largeTitle)
+                        .modifier(ParticlesModifier())
                 }
-            }
-            
-            // 꽃대
-            Group {
-                Rectangle()
-                    .fill(
-                        gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE)
-                        ? LinearGradient(
-                            gradient:
-                                Gradient(
-                                    colors: [
-                                        .green,
-                                        .green,
-                                        .white
-                                    ]
-                                ),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        : LinearGradient(
-                            gradient:
-                                Gradient(
-                                    colors: [
-                                        .black
-                                    ]
-                                ),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(
-                        width: UIScreen.main.bounds.width / 90,
-                        height: UIScreen.main.bounds.height / 2.75
-                    )
             }
             .frame(
-                maxHeight: .infinity,
-                alignment: .bottom
+                maxWidth: .infinity,
+                maxHeight: .infinity
             )
-            
-            if gestaltVM.closurePuzzleCleared {
-                MiniFlower(tintColor: .red, budColor: .white, radian: 2)
-                    .font(.title2)
-                    .modifier(ParticlesModifier())
-                    .frame(
-                        maxHeight: .infinity
-                    )
-                
-                FMFlower(tintColor: .yellow, budColor: .white)
-                    .modifier(ParticlesModifier(numberOfParticles: 7))
-            }
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity
-        )
+        
         .onAppear {
             if !gestaltVM.isFirstDisplayedClosure {
                 isFirstDisplayed.toggle()
@@ -246,6 +276,7 @@ struct ClosureView: View {
                 Button {
                     withAnimation {
                         gestaltVM.closurePuzzleCleared.toggle()
+                        gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
                     }
                 } label: {
                     Text("Hurray!")

@@ -27,16 +27,13 @@ struct ProximityView: View {
     )
     
     var body: some View {
+        // TODO: - 클리어한 이후 다시 들어왔을 때 거멓게 되어있는 이슈.
         VStack {
             ZStack {
                 LazyVGrid(columns: gridItem, spacing: 10) {
                     ForEach(0..<80, id: \.self) { index in
                         if !isTapped {
                             Circle()
-                                .frame(
-                                    maxWidth: UIScreen.main.bounds.width / 9
-    //                                maxHeight: UIScreen.main.bounds.height / 5
-                                )
                                 .overlay {
                                     if index == randomIndex {
                                         Button {
@@ -74,58 +71,63 @@ struct ProximityView: View {
                                                     Text("💐")
                                                         .bold()
                                                         .font(.largeTitle)
+                                                        .padding()
+                                                }
+                                                .overlay {
+                                                    Circle()
+                                                        .stroke(
+                                                            style: StrokeStyle(
+                                                                lineWidth: 3, dash: [5]
+                                                            )
+                                                        )
                                                 }
                                             }
                                         }
                                     }
                             } else {
                                 if checkIfEachSideToShow(in: index) == 1 {
-                                    Circle()
-                                        .fill(Color.yellow)
-                                        .frame(
-                                            maxWidth: UIScreen.main.bounds.width / 9,
-                                            maxHeight: UIScreen.main.bounds.height / 5
-                                        )
+                                    MiniFlower(tintColor: .yellow, budColor: .white, radian: 2)
                                 } else if checkIfEachSideToShow(in: index) == 2 {
-                                    Circle()
+                                    FivePetalsFlower(
+                                        petalOffset: 0,
+                                        petalWidth: 40
+                                    )
                                         .fill(Color.red)
-                                        .frame(
-                                            maxWidth: UIScreen.main.bounds.width / 9,
-                                            maxHeight: UIScreen.main.bounds.height / 5
-                                        )
                                 } else if checkIfEachSideToShow(in: index) == 3 {
-                                    Circle()
-                                        .fill(Color.blue)
-                                        .frame(
-                                            maxWidth: UIScreen.main.bounds.width / 9,
-                                            maxHeight: UIScreen.main.bounds.height / 5
-                                        )
+                                    TransformableFlower(
+                                        petalOffset: 0,
+                                        petalWidth: 20
+                                    )
+                                        .fill(Color.purple)
                                 } else if checkIfEachSideToShow(in: index) == 4 {
-                                    Circle()
-                                        .fill(Color.green)
-                                        .frame(
-                                            maxWidth: UIScreen.main.bounds.width / 9,
-                                            maxHeight: UIScreen.main.bounds.height / 5
-                                        )
+                                    FMFlower(tintColor: .orange, budColor: .yellow)
+                                        .scaleEffect(0.5)
                                 }
                             }
                         }
                     }
                 }
+                
                 if gestaltVM.proximityPuzzleCleared {
-                    Text("💐")
-                        .font(.title2)
-                        .modifier(ParticlesModifier())
-                        .frame(
-                            maxHeight: .infinity
+                        MiniFlower(tintColor: .yellow, budColor: .white, radian: 2)
+                            .modifier(ParticlesModifier(numberOfParticles: 10))
+                        
+                        FivePetalsFlower(petalOffset: 0, petalWidth: 40)
+                            .fill(Color.red)
+                            .frame(width: 100, height: 100)
+                            .modifier(ParticlesModifier(numberOfParticles: 10))
+                        
+                        TransformableFlower(
+                            petalOffset: 0,
+                            petalWidth: 20
                         )
+                            .fill(Color.purple)
+                            .frame(width: 100, height: 100)
+                            .modifier(ParticlesModifier(numberOfParticles: 10))
                     
-                    Text("💐")
-                        .font(.title2)
-                        .modifier(ParticlesModifier())
-                        .frame(
-                            maxHeight: .infinity
-                        )
+                        FMFlower(tintColor: .orange, budColor: .yellow)
+                            .scaleEffect(0.5)
+                            .modifier(ParticlesModifier(numberOfParticles: 10))
                 }
             }
             .onAppear {
@@ -150,7 +152,6 @@ struct ProximityView: View {
                     
                     res = randomIndex
                     horizontalPosition = res % 8
-                    print("가로:\(horizontalPosition), 세로:\(verticalPosition), 중심:\(randomIndex)")
                 }
             }
         }
@@ -316,5 +317,11 @@ struct ProximityView: View {
             }
         }
         return 0
+    }
+}
+
+struct Proxy: PreviewProvider {
+    static var previews: some View {
+        ProximityView(gestaltVM: GestaltVM())
     }
 }

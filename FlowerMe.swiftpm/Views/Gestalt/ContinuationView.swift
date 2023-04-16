@@ -91,9 +91,11 @@ struct ContinuationView: View {
                                 .gesture(
                                     DragGesture(minimumDistance: 0.0)
                                         .onChanged { newValue in
-                                            if newValue.startLocation.y.isLessThanOrEqualTo(newValue.location.y), timeMax < 1.0 {
+                                            if newValue.startLocation.y.isLessThanOrEqualTo(newValue.location.y),
+                                               timeMax < 1.0 {
                                                 
-                                            } else if newValue.location.y.isLessThanOrEqualTo(newValue.startLocation.y), timeMax < 1.0 {
+                                            } else if newValue.location.y.isLessThanOrEqualTo(newValue.startLocation.y),
+                                                      timeMax < 1.0 {
                                                 withAnimation {
                                                     timeMax += -(newValue.translation.height / 45_000)
                                                 }
@@ -130,6 +132,7 @@ struct ContinuationView: View {
                                     x: -(UIScreen.main.bounds.width / 5 * 1.6),
                                     y: UIScreen.main.bounds.width / 5 * 4
                                 )
+                                .foregroundColor(.accentColor)
                             
                             Text("To Here!")
                                 .bold()
@@ -137,24 +140,32 @@ struct ContinuationView: View {
                                     x: UIScreen.main.bounds.width / 7,
                                     y: .zero
                                 )
+                                .foregroundColor(.accentColor)
                         }
                     }
             }
             
             if gestaltVM.continuityPuzzleCleared {
-                Text("💐")
-                    .font(.title2)
-                    .modifier(ParticlesModifier())
-                    .frame(
-                        maxHeight: .infinity
+                TransformableFlower(
+                    petalOffset: timeMax * 20,
+                    petalWidth: timeMax * 30
+                )
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            .red,
+                            .red,
+                            .white
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
-                
-                Text("💐")
-                    .font(.title2)
-                    .modifier(ParticlesModifier())
-                    .frame(
-                        maxHeight: .infinity
-                    )
+                )
+                .frame(
+                    width: 150,
+                    height: 150
+                )
+                .modifier(ParticlesModifier(numberOfParticles: 15))
             }
             
         }
@@ -186,7 +197,7 @@ struct ContinuationView: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-
+                    
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
@@ -231,7 +242,7 @@ struct ContinuationView: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-
+                    
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
@@ -242,20 +253,20 @@ struct ContinuationView: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                    Button {
-                        withAnimation {
-                            gestaltVM.continuityPuzzleCleared.toggle()
-                        }
-                    } label: {
-                        Text("Hurray!")
-                            .bold()
-                            .foregroundColor(.primary)
-                            .padding(24)
-                            .padding(.horizontal, 24)
+                Button {
+                    withAnimation {
+                        gestaltVM.continuityPuzzleCleared.toggle()
                     }
-                    .buttonStyle(.borderedProminent)
-                    .padding()
-                    .padding()
+                } label: {
+                    Text("Hurray!")
+                        .bold()
+                        .foregroundColor(.primary)
+                        .padding(24)
+                        .padding(.horizontal, 24)
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                .padding()
             }
         }
         
