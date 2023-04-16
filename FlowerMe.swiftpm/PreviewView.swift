@@ -10,22 +10,18 @@ import SwiftUI
 struct PreviewView: View {
     var body: some View {
         TabView {
-            ForEach(
-                Constants.INTRO_ONBOARDING,
-                id: \.self
-            ) { text in
-                FMCustomCardView {
-                    Text(text)
-                        .frame(maxWidth: .infinity)
-                }
+            FMCustomCardView(style: .mini()) {
+                Text("Mini")
+            }
+            
+            FMCustomCardView(style: .normal()) {
+                Text("Normal")
+            }
+            
+            FMCustomCardView(style: .large()) {
+                Text("Large")
             }
         }
         .tabViewStyle(.page)
-    }
-}
-
-struct PreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreviewView()
     }
 }

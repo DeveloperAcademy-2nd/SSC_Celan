@@ -18,7 +18,7 @@ struct FMCustomCardView<Content: View>: View {
             case let .mini(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 5,
+                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 4,
                         verticalPadding: verticalPadding
                     )
             case let .normal(horizontalPadding, verticalPadding):
