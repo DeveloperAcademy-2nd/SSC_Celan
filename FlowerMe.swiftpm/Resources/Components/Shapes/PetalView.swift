@@ -49,24 +49,3 @@ struct Petal: Shape {
         }
     }
 }
-
-struct PetalView: View {
-    var body: some View {
-        HStack(spacing: -400) {
-            Petal()
-                .frame(width: 400, height: 500)
-                .rotationEffect(.degrees(270))
-            
-            Petal()
-                .frame(width: 400, height: 500)
-                .rotationEffect(.degrees(90))
-                .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-        }
-    }
-}
-
-struct PetalPreview: PreviewProvider {
-    static var previews: some View {
-        PetalView()
-    }
-}
