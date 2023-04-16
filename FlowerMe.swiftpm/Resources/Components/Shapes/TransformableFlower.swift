@@ -64,9 +64,3 @@ struct TransformableFlower: Shape {
         return path
     }
 }
-
-struct Transform: PreviewProvider {
-    static var previews: some View {
-        TempView()
-    }
-}
