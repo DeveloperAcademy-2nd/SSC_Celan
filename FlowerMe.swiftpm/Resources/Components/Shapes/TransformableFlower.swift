@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct TransformableFlower: Shape {
-    // How much to move this petal away from the center
     var petalOffset: CGFloat = -20
-    
-    // How wide to make each petal
     var petalWidth: CGFloat = 100
     
     init(
@@ -69,35 +66,7 @@ struct TransformableFlower: Shape {
 }
 
 struct Transform: PreviewProvider {
-    
     static var previews: some View {
         TempView()
-    }
-}
-
-struct TempView: View {
-    @State private var petalWidth: CGFloat = 40.0
-    @State private var petalOffset: CGFloat = -40.0
-    
-    var body: some View {
-        VStack {
-            TransformableFlower(
-                petalOffset: petalOffset,
-                petalWidth: petalWidth
-            )
-            .fill(
-                .red,
-                style: .init(
-                    eoFill: true
-                )
-            )
-            
-            Slider(value: $petalWidth, in: 40...100)
-                .padding()
-            
-            Slider(value: $petalOffset, in: -40...60)
-                .padding()
-            
-        }
     }
 }
