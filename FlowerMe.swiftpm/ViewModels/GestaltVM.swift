@@ -30,7 +30,29 @@ final class GestaltVM: ObservableObject {
     @Published var continuityPuzzleCleared: Bool = false
     
     // Long Press to Clear
+    // MARK: - Similarity
     @Published var similarityPuzzleCleared: Bool = false
+    @Published var sectionA = [Int]()
+    @Published var circleOpacityA: CGFloat = 1.0
+    @Published var sectionB = [Int]()
+    @Published var circleOpacityB: CGFloat = 1.0
+    @Published var sectionC = [Int]()
+    @Published var circleOpacityC: CGFloat = 1.0
+    @Published var sectionD = [Int]()
+    @Published var circleOpacityD: CGFloat = 1.0
+    @Published var sectionE = [Int]()
+    @Published var circleOpacityE: CGFloat = 1.0
+    
+    @Published var section1 = [Int]()
+    @Published var circleOpacity1: CGFloat = 1.0
+    @Published var section2 = [Int]()
+    @Published var circleOpacity2: CGFloat = 1.0
+    @Published var section3 = [Int]()
+    @Published var circleOpacity3: CGFloat = 1.0
+    @Published var section4 = [Int]()
+    @Published var circleOpacity4: CGFloat = 1.0
+    @Published var section5 = [Int]()
+    @Published var circleOpacity5: CGFloat = 1.0
     
     // Slide to Clear
     @Published var pragnanzPuzzleCleared: Bool = false
@@ -50,6 +72,7 @@ final class GestaltVM: ObservableObject {
     init() {
         addClosurePuzzleSubscriber()
         addBadgeCountSubscriber()
+        sectionMaker()
     }
     
     /**
@@ -95,8 +118,8 @@ final class GestaltVM: ObservableObject {
 // MARK: - GESTALT - CONTINUITY
 extension GestaltVM {
     var path: Path {
-        let wid = UIScreen.main.bounds.width / 5
-        let hei = UIScreen.main.bounds.width / 5 * 4
+        let wid = Constants.CurveCGFloat.CURVE_WIDTH
+        let hei = Constants.CurveCGFloat.CURVE_HEIGHT
         var res = Path()
         res.move(to: .zero)
         
@@ -110,8 +133,8 @@ extension GestaltVM {
     }
     
     var pathReversed: Path {
-        let wid = UIScreen.main.bounds.width / 5
-        let hei = UIScreen.main.bounds.width / 5 * 4
+        let wid = Constants.CurveCGFloat.CURVE_WIDTH
+        let hei = Constants.CurveCGFloat.CURVE_HEIGHT
         var res = Path()
         res.move(to: CGPoint(x: -wid, y: hei))
         
@@ -126,10 +149,76 @@ extension GestaltVM {
     
     var startReversed: CGPoint {
         CGPoint(
-            x: -(UIScreen.main.bounds.width / 5),
-            y: UIScreen.main.bounds.width / 5 * 4
+            x: -(Constants.CurveCGFloat.CURVE_WIDTH),
+            y: Constants.CurveCGFloat.CURVE_HEIGHT
         )
     }
     
     var duration: Double { 0.5 }
+}
+
+/** SIMILARITY */
+extension GestaltVM {
+    
+    /**
+     opacity 조절을 위한 total 계산속성
+     */
+    public var totalOpacity: CGFloat {
+        circleOpacity1 + circleOpacity2 + circleOpacity3 + circleOpacity4 + circleOpacity5
+        + circleOpacityA + circleOpacityB + circleOpacityC + circleOpacityD + circleOpacityE
+    }
+    
+    private func sectionMaker() {
+        var firstSection = (0...39).map { $0 }
+        var secondSeection = (40...80).map { $0 }
+        
+        for index in 0..<5 {
+            switch index {
+            case 0:
+                appendEachSection(in: &sectionA, from: &firstSection)
+            case 1:
+                appendEachSection(in: &sectionB, from: &firstSection)
+            case 2:
+                appendEachSection(in: &sectionC, from: &firstSection)
+            case 3:
+                appendEachSection(in: &sectionD, from: &firstSection)
+            case 4:
+                appendEachSection(in: &sectionE, from: &firstSection)
+            default:
+                break
+            }
+        }
+        
+        for index in 0..<5 {
+            switch index {
+            case 0:
+                appendEachSection(in: &section1, from: &secondSeection)
+            case 1:
+                appendEachSection(in: &section2, from: &secondSeection)
+            case 2:
+                appendEachSection(in: &section3, from: &secondSeection)
+            case 3:
+                appendEachSection(in: &section4, from: &secondSeection)
+            case 4:
+                appendEachSection(in: &section5, from: &secondSeection)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func appendEachSection(
+        in arr: inout [Int],
+        from arr2: inout [Int]
+    ) {
+        for _ in 0..<8 {
+            arr.append(
+                arr2.remove(
+                    at: arr2.firstIndex(
+                        of: arr2.randomElement() ?? 0
+                    ) ?? 0
+                )
+            )
+        }
+    }
 }

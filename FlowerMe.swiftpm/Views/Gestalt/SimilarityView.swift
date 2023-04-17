@@ -36,11 +36,6 @@ struct SimilarityView: View {
     @State private var section5 = [Int]()
     @State private var circleOpacity5: CGFloat = 1.0
     
-    var total: CGFloat {
-        circleOpacity1 + circleOpacity2 + circleOpacity3 + circleOpacity4 + circleOpacity5
-        + circleOpacityA + circleOpacityB + circleOpacityC + circleOpacityD + circleOpacityE
-    }
-    
     var timer = Timer.publish(every: 0.2, on: .main, in: .common)
         .autoconnect()
         .eraseToAnyPublisher()
@@ -55,7 +50,7 @@ struct SimilarityView: View {
     
     var body: some View {
         VStack {
-            if total <= 0.0 {
+            if gestaltVM.totalOpacity <= 0.0 {
                 Text("Look! You have found a yellow Sunflower!")
                     .bold()
                     .multilineTextAlignment(.center)
@@ -64,7 +59,7 @@ struct SimilarityView: View {
                     .padding()
                 
             }
-            else if total <= 1.75 {
+            else if gestaltVM.totalOpacity <= 1.75 {
                 Text("Because it is near by other yellow Sunflowers!")
                     .bold()
                     .multilineTextAlignment(.center)
@@ -72,7 +67,7 @@ struct SimilarityView: View {
                     .font(.title)
                     .padding()
             }
-            else if total <= 3.5 {
+            else if gestaltVM.totalOpacity <= 3.5 {
                 Text("It maybe has a yellow color...")
                     .bold()
                     .multilineTextAlignment(.center)
@@ -80,7 +75,7 @@ struct SimilarityView: View {
                     .font(.title)
                     .padding()
             }
-            else if total <= 5.0 {
+            else if gestaltVM.totalOpacity <= 5.0 {
                 Text("Can you guess the color of the missing Sunflower?")
                     .bold()
                     .multilineTextAlignment(.center)
@@ -102,34 +97,30 @@ struct SimilarityView: View {
                     ForEach(0..<80, id: \.self) { index in
                         ZStack {
                             if index < 40 {
-                                if sectionA.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacityA)
-                                } else if sectionB.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacityB)
-                                } else if sectionC.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacityC)
-                                } else if sectionD.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacityD)
-                                } else if sectionE.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacityE)
+                                if gestaltVM.sectionA.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacityA)
+                                } else if gestaltVM.sectionB.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacityB)
+                                } else if gestaltVM.sectionC.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacityC)
+                                } else if gestaltVM.sectionD.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacityD)
+                                } else if gestaltVM.sectionE.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacityE)
                                 }
                             } else if index >= 40 {
-                                if section1.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacity1)
-                                } else if section2.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacity2)
-                                } else if section3.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacity3)
-                                } else if section4.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacity4)
-                                } else if section5.contains(index) {
-                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $circleOpacity5)
+                                if gestaltVM.section1.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacity1)
+                                } else if gestaltVM.section2.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacity2)
+                                } else if gestaltVM.section3.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacity3)
+                                } else if gestaltVM.section4.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacity4)
+                                } else if gestaltVM.section5.contains(index) {
+                                    FlowerCurtain(timer: timer, index: index, circleOpacity: $gestaltVM.circleOpacity5)
                                 } else {
-                                    if circleOpacityA <= 0.0, circleOpacity1 <= 0.0,
-                                       circleOpacityB <= 0.0, circleOpacity2 <= 0.0,
-                                       circleOpacityC <= 0.0, circleOpacity3 <= 0.0,
-                                       circleOpacityD <= 0.0, circleOpacity4 <= 0.0,
-                                       circleOpacityE <= 0.0, circleOpacity5 <= 0.0 {
+                                    if gestaltVM.totalOpacity <= 0.0 {
                                         Button {
                                             withAnimation {
                                                 if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.SIMILARITY) {
@@ -186,13 +177,9 @@ struct SimilarityView: View {
             
             Spacer()
         }
-        .padding()
         .onAppear {
             if !gestaltVM.isFirstDisplayedSimilarity {
                 isFirstDisplayed.toggle()
-                sectionMaker()
-            } else if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.SIMILARITY) {
-                // 클리어한 이후
             }
         }
         .show(isActivated: $isFirstDisplayed) {
@@ -351,9 +338,9 @@ struct FlowerCurtain: View {
                 radian: index >= 40 ? 2 : 15
             )
             .onReceive(timer, perform: { _ in
-                if isPressing, self.circleOpacity > 0.0 {
+                if isPressing, circleOpacity > 0.0 {
                     withAnimation {
-                        self.circleOpacity -= 0.25
+                        circleOpacity -= 0.25
                     }
                 }
             })
