@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum Constants {
     static let INTRO_ONBOARDING: [String] = [
@@ -39,5 +40,59 @@ enum Constants {
         static let SUMMER: String = "Summer"
         static let FALL: String = "Fall"
         static let WINTER: String = "Winter"
+    }
+    
+    enum CurveCGFloat {
+        static var CURVE_WIDTH: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.height / 5
+            } else {
+                return UIScreen.main.bounds.width / 5
+            }
+        }
+        
+        static var CURVE_HEIGHT: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.height / 5 * 3
+            } else {
+                return UIScreen.main.bounds.width / 5 * 3
+            }
+        }
+    }
+    
+    enum ClosureFlowerCGFloat {
+        static var CLOSURE_WIDTH: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.width / 3
+            } else {
+                return UIScreen.main.bounds.height / 3
+            }
+        }
+        
+        static var CLOSURE_HEIGHT: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.height / 3
+            } else {
+                return UIScreen.main.bounds.width / 3
+            }
+        }
+    }
+    
+    enum ReactiveCGFloat {
+        static var REACTIVE_WIDTH: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.width
+            } else {
+                return UIScreen.main.bounds.height
+            }
+        }
+        
+        static var REACTIVE_HEIGHT: CGFloat {
+            if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+                return UIScreen.main.bounds.height
+            } else {
+                return UIScreen.main.bounds.width
+            }
+        }
     }
 }
