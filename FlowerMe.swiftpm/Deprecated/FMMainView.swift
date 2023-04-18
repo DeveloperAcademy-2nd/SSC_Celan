@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct FMMainView: View {
-    @ObservedObject var flowerVM: FlowerVM = FlowerVM()
-    @ObservedObject var gestaltVM: GestaltVM = GestaltVM()
+    @ObservedObject var gestaltVM: GestaltVM
     @State private var isNavigated: Bool = false
     @State private var selection: Int = 0
     
@@ -85,28 +84,27 @@ struct FMMainView: View {
         NavigationLink {
             TabView {
                 NavigationView {
-                    FMFlowerMainView(flowerVM: flowerVM, gestaltVM: gestaltVM)
+                    FMFlowerMainView(gestaltVM: gestaltVM)
                         .navigationBarTitleDisplayMode(.large)
-                        .navigationTitle("Flowers' Gestalt")
-                }
-                .tabItem {
-                    Label("home", systemImage: "house")
                 }
                 .navigationViewStyle(.stack)
+                .tabItem {
+                    Label("Puzzles", systemImage: "puzzlepiece")
+                }
                 
-                NavigationView {
-                    MainBadgesView(flowerVM: flowerVM, gestaltVM: gestaltVM)
-                        .navigationTitle("Badges")
-                }
-                .tabItem {
-                    Label("Badges", systemImage: "star.circle")
-                }
-                .badge(gestaltVM.dispalyBadgesCount)
-                .navigationViewStyle(.stack)
+//                NavigationView {
+//                    MainBadgesView(gestaltVM: gestaltVM)
+//                        .navigationTitle("Badges")
+//                }
+//                .tabItem {
+//                    Label("Badges", systemImage: "star.circle")
+//                }
+//                .badge(gestaltVM.dispalyBadgesCount)
+//                .navigationViewStyle(.stack)
             }
             .navigationBarBackButtonHidden()
         } label: {
-            FMCustomCardView(style: .large()) {
+            FMCustomCardView(style: .normal()) {
                 Text("Enter!")
                     .font(.largeTitle)
                     .frame(alignment: .center)

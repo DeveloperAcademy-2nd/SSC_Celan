@@ -15,12 +15,12 @@ struct Petal: Shape {
             path.move(to: .zero)
             
             // 0,0 -> 200,0
-            path.addLine(to: CGPoint(x: rect.width*1.1, y: 0))
+            path.addLine(to: CGPoint(x: rect.width * 1.1, y: 0))
             
             // (200, 0) -> (200, 200*0.2125)
             path.addLine(to: CGPoint(
-                x: rect.width*1.2,
-                y: rect.height*0.4515)
+                x: rect.width * 1.2,
+                y: rect.height * 0.4515)
             )
             
             // First Bezier Curve
@@ -31,8 +31,8 @@ struct Petal: Shape {
                     y: rect.height * 0.01
                 ),
                 control2: CGPoint(
-                    x: rect.width*3/5,
-                    y: rect.height*0.09375
+                    x: rect.width * 3/5,
+                    y: rect.height * 0.09375
                 )
             )
             

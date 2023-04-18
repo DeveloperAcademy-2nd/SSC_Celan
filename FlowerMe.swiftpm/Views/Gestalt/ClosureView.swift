@@ -17,37 +17,13 @@ struct ClosureView: View {
     @State private var isFirstDisplayed: Bool = false
     
     var body: some View {
-        VStack {
-            if gestaltVM.closurePuzzle.count == 2 {
-                Text("As You fit the pieces, It has gap and it draws a Tulip!")
-                    .bold()
-                    .font(.title)
-                    .foregroundColor(.accentColor)
-                    .multilineTextAlignment(.center)
-            } else if gestaltVM.closurePuzzle.count == 3 {
-                Text("Because your brain fills those gaps!")
-                    .bold()
-                    .font(.title)
-                    .foregroundColor(.accentColor)
-                    .multilineTextAlignment(.center)
-            } else if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-               Text("You have cleared this Puzzle!")
-                   .bold()
-                   .font(.title)
-                   .foregroundColor(.accentColor)
-                   .multilineTextAlignment(.center)
-           } else if !gestaltVM.isClosurePuzzleDone {
-                Text("Tap the pieces to make them fit into the space!")
-                    .bold()
-                    .font(.title)
-                    .foregroundColor(.accentColor)
-            } else if gestaltVM.isClosurePuzzleDone {
-                Text("And You did it! You finally make a tulip with a gaps!")
-                    .bold()
-                    .font(.title)
-                    .foregroundColor(.accentColor)
-                    .multilineTextAlignment(.center)
-            }
+        ScrollView(showsIndicators: false) {
+            descriptionBuild()
+                .frame(
+                    maxWidth: .infinity,
+                    minHeight: 100,
+                    alignment: .top
+                )
             
             ZStack {
                 if gestaltVM.isClosurePuzzleDone
@@ -60,23 +36,25 @@ struct ClosureView: View {
                         }
                     } label: {
                         Text("🌷")
-                            .font(.system(size: UIScreen.main.bounds.width / 10))
-                            .frame(
-                                maxWidth: UIScreen.main.bounds.width / 8,
-                                maxHeight: UIScreen.main.bounds.height / 8
-                            )
+                            .font(.system(size: Constants.ReactiveCGFloat.REACTIVE_WIDTH / 10))
+                            .overlay {
+                                Circle()
+                                    .stroke(
+                                        style: StrokeStyle(
+                                            lineWidth: 3, dash: [5]
+                                        )
+                                    )
+                            }
                     }
-                    .overlay {
-                        Circle()
-                            .stroke(
-                                style: StrokeStyle(
-                                    lineWidth: 3, dash: [5]
-                                )
-                            )
-                    }
+                    .frame(
+                        maxWidth: Constants.ReactiveCGFloat.REACTIVE_WIDTH / 8,
+                        maxHeight: Constants.ReactiveCGFloat.REACTIVE_HEIGHT / 3,
+                        alignment: .top
+                    )
+                    .foregroundColor(.primary)
                 }
-                
-                HStack(spacing: -350) {
+
+                HStack(spacing: -(Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH - 25)) {
                     // Left
                     HalfFlowerView(
                         gestaltVM: gestaltVM,
@@ -87,17 +65,23 @@ struct ClosureView: View {
                         // Guide Line
                         if gestaltVM.isClosurePuzzleDone
                             || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                            
+
                         } else {
-                            VStack(spacing: 100) {
+                            VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
                                 Petal()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                    .frame(width: 400, height: 400)
+                                    .frame(
+                                        width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH,
+                                        height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
+                                    )
                                     .rotationEffect(.degrees(270))
-                                
+
                                 Leaf()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                    .frame(width: 200, height: 200)
+                                    .frame(
+                                        width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 2,
+                                        height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT / 2
+                                    )
                                     .rotationEffect(.degrees(180))
                                     .rotation3DEffect(
                                         .degrees(180),
@@ -106,7 +90,7 @@ struct ClosureView: View {
                             }
                         }
                     }
-                    
+
                     // Right
                     HalfFlowerReversedView(
                         gestaltVM: gestaltVM,
@@ -116,17 +100,23 @@ struct ClosureView: View {
                     .overlay {
                         if gestaltVM.isClosurePuzzleDone
                             || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-                            
+
                         } else {
-                            VStack(spacing: 100) {
+                            VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
                                 Petal()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                    .frame(width: 400, height: 400)
+                                    .frame(
+                                        width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH,
+                                        height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
+                                    )
                                     .rotationEffect(.degrees(270))
-                                
+
                                 Leaf()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
-                                    .frame(width: 200, height: 200)
+                                    .frame(
+                                        width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 2,
+                                        height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT / 2
+                                    )
                                     .rotationEffect(.degrees(180))
                                     .rotation3DEffect(
                                         .degrees(180),
@@ -140,57 +130,22 @@ struct ClosureView: View {
                         }
                     }
                 }
-                
+
                 // 꽃대
-                Group {
-                    Rectangle()
-                        .fill(
-                            gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE)
-                            ? LinearGradient(
-                                gradient:
-                                    Gradient(
-                                        colors: [
-                                            .green,
-                                            .green,
-                                            .white
-                                        ]
-                                    ),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            : LinearGradient(
-                                gradient:
-                                    Gradient(
-                                        colors: [
-                                            .black
-                                        ]
-                                    ),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                        .frame(
-                            width: UIScreen.main.bounds.width / 90,
-                            height: UIScreen.main.bounds.height / 2.75
-                        )
-                }
-                .frame(
-                    maxHeight: .infinity,
-                    alignment: .bottom
-                )
-                
+                flowerStalkBuild()
+                    .frame(
+                        maxHeight: .infinity,
+                        alignment: .bottom
+                    )
+
                 if gestaltVM.closurePuzzleCleared {
                     Text("🌷")
                         .font(.largeTitle)
                         .modifier(ParticlesModifier())
                 }
             }
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity
-            )
+            .scaleEffect(UIScreen.main.bounds.width > UIScreen.main.bounds.height ? 0.8 : 1.0)
         }
-        
         .onAppear {
             if !gestaltVM.isFirstDisplayedClosure {
                 isFirstDisplayed.toggle()
@@ -203,7 +158,7 @@ struct ClosureView: View {
             }
         }
         .show(isActivated: $isFirstDisplayed) {
-            FMCustomCardView(style: .large()) {
+            FMCustomCardView(style: .normal()) {
                 VStack {
                     Text(
                         """
@@ -213,8 +168,7 @@ struct ClosureView: View {
                         and leaves to fit the space.
                         
                         After You finish your puzzle,
-                        You can get a **Tulip** badge
-                        and explanation of the principle!
+                        You can get a basic understanding about the principle of **Closure**!
                         
                         Gook Luck!
                         """
@@ -222,7 +176,8 @@ struct ClosureView: View {
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-
+                    .padding()
+                    
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
@@ -246,7 +201,7 @@ struct ClosureView: View {
             }
         }
         .show(isActivated: $gestaltVM.closurePuzzleCleared) {
-            FMCustomCardView(style: .large()) {
+            FMCustomCardView(style: .normal()) {
                 VStack {
                     Text(
                         """
@@ -260,23 +215,26 @@ struct ClosureView: View {
                         
                         Did you recognize?
                         With your puzzle pieces, you drawn a **Tulip**!
-                        
-                        And now you have a **Tulip** badge!
                         """
                     )
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
-
+                    .padding()
+                    
                 }
                 .padding(24)
                 .frame(maxHeight: .infinity)
+            }
+            .onDisappear {
+                withAnimation {
+                    gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
+                }
             }
             .overlay(alignment: .bottom) {
                 Button {
                     withAnimation {
                         gestaltVM.closurePuzzleCleared.toggle()
-                        gestaltVM.clearedPrinciples.append(Constants.Gestalt.CLOSURE)
                     }
                 } label: {
                     Text("Hurray!")
@@ -291,10 +249,83 @@ struct ClosureView: View {
             }
         }
     }
-}
-
-struct ClosurePreview: PreviewProvider {
-    static var previews: some View {
-        ClosureView(gestaltVM: GestaltVM())
+    
+    // 꽃대
+    private func flowerStalkBuild() -> some View {
+        Group {
+            Rectangle()
+                .fill(
+                    gestaltVM.isClosurePuzzleDone || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE)
+                    ? LinearGradient(
+                        gradient:
+                            Gradient(
+                                colors: [
+                                    .green,
+                                    .green,
+                                    .white
+                                ]
+                            ),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    : LinearGradient(
+                        gradient:
+                            Gradient(
+                                colors: [
+                                    .black
+                                ]
+                            ),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(
+                    width: Constants.ReactiveCGFloat.REACTIVE_WIDTH / 90,
+                    height: Constants.ReactiveCGFloat.REACTIVE_HEIGHT / 7
+                )
+        }
+    }
+    
+    @ViewBuilder
+    private func descriptionBuild() -> some View {
+        if gestaltVM.closurePuzzle.count == 2 {
+            Text("As You fit the pieces, It has gap and it draws a Tulip!")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+        } else if gestaltVM.closurePuzzle.count == 3 {
+            Text("Because your brain fills those gaps!")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+        } else if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+           Text("You have cleared this principle!")
+               .bold()
+               .font(.title)
+               .foregroundColor(.accentColor)
+               .multilineTextAlignment(.center)
+               .padding()
+            
+       } else if !gestaltVM.isClosurePuzzleDone {
+            Text("Tap the pieces to make them fit into the space!")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .padding()
+           
+        } else if gestaltVM.isClosurePuzzleDone {
+            Text("And You did it! You finally make a tulip with a gaps!")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .multilineTextAlignment(.center)
+                .padding()
+        }
     }
 }

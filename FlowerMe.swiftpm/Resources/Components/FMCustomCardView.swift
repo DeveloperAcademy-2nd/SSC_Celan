@@ -18,19 +18,19 @@ struct FMCustomCardView<Content: View>: View {
             case let .mini(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 4,
+                        horizontalPadding: horizontalPadding ?? getPadding() / 6,
                         verticalPadding: verticalPadding
                     )
             case let .normal(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 2.5,
+                        horizontalPadding: horizontalPadding ?? getPadding() / 1.75,
                         verticalPadding: verticalPadding
                     )
             case let .large(horizontalPadding, verticalPadding):
                 content
                     .fmCustomCardViewModify(
-                        horizontalPadding: horizontalPadding ?? UIScreen.main.bounds.width / 1.5,
+                        horizontalPadding: horizontalPadding ?? getPadding() / 1.5,
                         verticalPadding: verticalPadding
                     )
             }
@@ -43,6 +43,14 @@ struct FMCustomCardView<Content: View>: View {
     ) {
         self.style = style
         self.content = label()
+    }
+    
+    private func getPadding() -> CGFloat {
+        if UIScreen.main.bounds.width < UIScreen.main.bounds.height {
+            return UIScreen.main.bounds.width
+        } else {
+            return UIScreen.main.bounds.height
+        }
     }
 }
 
