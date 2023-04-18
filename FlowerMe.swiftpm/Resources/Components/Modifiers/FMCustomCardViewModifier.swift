@@ -16,31 +16,21 @@ struct FMCustomCardViewModifier: ViewModifier {
         // Background Card
         RoundedRectangle(
             cornerRadius: 18
-//            style: .continuous
         )
-        .fill(
-            colorScheme == .dark
-            ? Color(.systemGray2)
-            : Color.white
-        )
+        .fill(Color.white)
         .frame(
             width: horizontalPadding,
-            height: verticalPadding != nil ? verticalPadding : horizontalPadding * 1.618
+            height: verticalPadding != nil ? verticalPadding : horizontalPadding * 1.2
         )
         .shadow(
-            color: Color(.systemGray2)
-                .opacity(
-                    colorScheme == .dark
-                    ? 0.0
-                    : 0.3
-                ),
+            color: Color(.systemGray2).opacity(0.3),
             radius: 10,
             x: 8,
             y: 5
         )
-        .padding()
         .overlay {
             content
+                .foregroundColor(.black)
         }
     }
 }
