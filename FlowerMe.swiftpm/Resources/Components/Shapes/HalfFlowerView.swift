@@ -13,7 +13,7 @@ struct HalfFlowerView: View {
     @Binding var bottomLeadingLeaf: Double
     
     var body: some View {
-        VStack(spacing: 100) {
+        VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
             Petal()
                 .fill(
                     gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) || gestaltVM.isClosurePuzzleDone
@@ -36,7 +36,10 @@ struct HalfFlowerView: View {
                         endPoint: .top
                     )
                 )
-                .frame(width: 400, height: 400)
+                .frame(
+                    width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH,
+                    height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
+                )
             // 270
                 .rotationEffect(
                     .degrees(
@@ -77,7 +80,10 @@ struct HalfFlowerView: View {
                         endPoint: .top
                     )
                 )
-                .frame(width: 200, height: 200)
+                .frame(
+                    width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 2,
+                    height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT / 2
+                )
             // 180
                 .rotationEffect(
                     .degrees(
@@ -110,7 +116,7 @@ struct HalfFlowerReversedView: View {
     @Binding var bottomTrailingLeaf: Double
     
     var body: some View {
-        VStack(spacing: 100) {
+        VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
             Petal()
                 .fill(
                     gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) || gestaltVM.isClosurePuzzleDone
@@ -133,7 +139,10 @@ struct HalfFlowerReversedView: View {
                         endPoint: .top
                     )
                 )
-                .frame(width: 400, height: 400)
+                .frame(
+                    width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH,
+                    height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
+                )
             // 270
                 .rotationEffect(
                     .degrees(
@@ -174,7 +183,10 @@ struct HalfFlowerReversedView: View {
                         endPoint: .top
                     )
                 )
-                .frame(width: 200, height: 200)
+                .frame(
+                    width: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 2,
+                    height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT / 2
+                )
             // 180
                 .rotationEffect(
                     .degrees(
@@ -230,5 +242,12 @@ struct Leaf: Shape {
                 control2: CGPoint(x: 0, y: 0)
             )
         }
+    }
+}
+
+struct ClosurePreview2: PreviewProvider {
+    static var previews: some View {
+        ClosureView(gestaltVM: GestaltVM())
+            .previewInterfaceOrientation(.landscapeRight)
     }
 }

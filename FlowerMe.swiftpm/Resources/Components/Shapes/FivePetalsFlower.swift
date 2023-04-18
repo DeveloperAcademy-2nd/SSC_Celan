@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FivePetalsFlower: Shape {
     var petalOffset: CGFloat = -60
-    var petalWidth: CGFloat = 150
+    var petalWidth: CGFloat = 250
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
