@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 final class GestaltVM: ObservableObject {
+    var id = UUID().uuidString
     @Published var clearedPrinciples = [String]()
     
     @Published var isFirstDisplayedClosure: Bool = false
@@ -40,8 +41,6 @@ final class GestaltVM: ObservableObject {
     @Published var circleOpacityC: CGFloat = 1.0
     @Published var sectionD = [Int]()
     @Published var circleOpacityD: CGFloat = 1.0
-    @Published var sectionE = [Int]()
-    @Published var circleOpacityE: CGFloat = 1.0
     
     @Published var section1 = [Int]()
     @Published var circleOpacity1: CGFloat = 1.0
@@ -51,8 +50,6 @@ final class GestaltVM: ObservableObject {
     @Published var circleOpacity3: CGFloat = 1.0
     @Published var section4 = [Int]()
     @Published var circleOpacity4: CGFloat = 1.0
-    @Published var section5 = [Int]()
-    @Published var circleOpacity5: CGFloat = 1.0
     
     // Slide to Clear
     @Published var pragnanzPuzzleCleared: Bool = false
@@ -164,15 +161,15 @@ extension GestaltVM {
      opacity 조절을 위한 total 계산속성
      */
     public var totalOpacity: CGFloat {
-        circleOpacity1 + circleOpacity2 + circleOpacity3 + circleOpacity4 + circleOpacity5
-        + circleOpacityA + circleOpacityB + circleOpacityC + circleOpacityD + circleOpacityE
+        circleOpacity1 + circleOpacity2 + circleOpacity3 + circleOpacity4 +
+        circleOpacityA + circleOpacityB + circleOpacityC + circleOpacityD
     }
     
     private func sectionMaker() {
-        var firstSection = (0...39).map { $0 }
-        var secondSeection = (40...80).map { $0 }
+        var firstSection = (0...32).map { $0 } // 33
+        var secondSeection = (32...63).map { $0 } // 31
         
-        for index in 0..<5 {
+        for index in 0..<4 {
             switch index {
             case 0:
                 appendEachSection(in: &sectionA, from: &firstSection)
@@ -182,14 +179,12 @@ extension GestaltVM {
                 appendEachSection(in: &sectionC, from: &firstSection)
             case 3:
                 appendEachSection(in: &sectionD, from: &firstSection)
-            case 4:
-                appendEachSection(in: &sectionE, from: &firstSection)
             default:
                 break
             }
         }
         
-        for index in 0..<5 {
+        for index in 0..<4 {
             switch index {
             case 0:
                 appendEachSection(in: &section1, from: &secondSeection)
@@ -199,8 +194,6 @@ extension GestaltVM {
                 appendEachSection(in: &section3, from: &secondSeection)
             case 3:
                 appendEachSection(in: &section4, from: &secondSeection)
-            case 4:
-                appendEachSection(in: &section5, from: &secondSeection)
             default:
                 break
             }
