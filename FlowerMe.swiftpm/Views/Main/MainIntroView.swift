@@ -1,30 +1,98 @@
-// 꽃말과 함께 내일의 나를 응원하는 앱
-// 꽃에 대한 정보와 꽃말을 쓰고 짧은 응원 메시지를 보낸다.
-// 지속가능한 꽃과, 지속가능한 나를 응원
-
 import SwiftUI
 
 struct MainIntroView: View {
     @State private var toMainViewTrigger: Bool = false
+    @ObservedObject var gestaltVM: GestaltVM
     
     var body: some View {
-        VStack {
-            Text("Flowers Gestalt")
-                .font(.largeTitle)
-            Text("For All Junior Designers 🧑🏻‍🎨")
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                toMainViewTrigger.toggle()
+        NavigationView {
+            FMCustomCardView(style: .normal()) {
+                VStack {
+                    Spacer()
+                    
+                    Text("Flowered Gestalts")
+                        .bold()
+                        .font(.largeTitle)
+                        .foregroundColor(.black)
+                    
+                    Text("To Understand How we see and recognize things.")
+                        .bold()
+                        .font(.title2)
+                        .foregroundColor(.black).opacity(0.8)
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        MainGuideView(gestaltVM: gestaltVM)
+                            .navigationBarBackButtonHidden()
+                    } label: {
+                        Text("Let's Begin!")
+                            .padding()
+                            .font(.largeTitle)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+            }
+            .background {
+                ForEach(0..<35, id: \.self) { index in
+                    MiniFlower(
+                        tintColor: .yellow,
+                        budColor: .white,
+                        radian: 2
+                    )
+                    .position(
+                        CGPoint(
+                            x: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_WIDTH...Constants.ReactiveCGFloat.REACTIVE_WIDTH),
+                            y: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_HEIGHT...Constants.ReactiveCGFloat.REACTIVE_HEIGHT)
+                        )
+                    )
+                    .rotationEffect(
+                        .degrees(
+                            Double.random(in: 30...180)
+                        )
+                    )
+                    
+                    FMFlower(tintColor: .orange, budColor: .yellow)
+                        .position(
+                            CGPoint(
+                                x: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_WIDTH...Constants.ReactiveCGFloat.REACTIVE_WIDTH),
+                                y: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_HEIGHT...Constants.ReactiveCGFloat.REACTIVE_HEIGHT)
+                            )
+                        )
+                        .rotationEffect(
+                            .degrees(
+                                Double.random(in: 30...180)
+                            )
+                        )
+                    
+                    FivePetalsFlower(
+                        petalOffset: -5,
+                        petalWidth: 150
+                    )
+                    .fill(Color.red)
+                    .position(
+                        CGPoint(
+                            x: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_WIDTH...Constants.ReactiveCGFloat.REACTIVE_WIDTH),
+                            y: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_HEIGHT...Constants.ReactiveCGFloat.REACTIVE_HEIGHT)
+                        )
+                    )
+                    .rotationEffect(
+                        .degrees(
+                            Double.random(in: 30...180)
+                        )
+                    )
+                }
             }
         }
-        .overlay {
-            NavigationLink(isActive: $toMainViewTrigger) {
-                FMMainView()
-                    .navigationBarBackButtonHidden()
-            } label: {
-                EmptyView()
-            }
+        .navigationViewStyle(.stack)
+    }
+    
+    private func getPadding() -> CGFloat {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            return UIScreen.main.bounds.width / 8
+        } else {
+            return 0
         }
     }
 }
