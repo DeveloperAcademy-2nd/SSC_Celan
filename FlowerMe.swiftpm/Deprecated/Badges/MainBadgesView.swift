@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MainBadgesView: View {
-    @ObservedObject var flowerVM: FlowerVM
     @ObservedObject var gestaltVM: GestaltVM
     @State private var isDetailCardViewDisplayed: Bool = false
     let gridSystem: [GridItem] = [
