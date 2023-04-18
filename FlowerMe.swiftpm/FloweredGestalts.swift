@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct MyApp: App {
+struct FloweredGestalts: App {
     @ObservedObject var gestaltVM: GestaltVM = GestaltVM()
     
     var body: some Scene {
