@@ -20,18 +20,23 @@ struct ProximityView: View {
     
     let gridItem: [GridItem] = Array(
         repeating: .init(
-            .flexible(),
-            spacing: 10
+            .flexible(maximum: Constants.ReactiveCGFloat.REACTIVE_HEIGHT / 7),
+            spacing: 5
         ),
         count: 8
     )
     
     var body: some View {
-        // TODO: - 클리어한 이후 다시 들어왔을 때 거멓게 되어있는 이슈.
-        VStack {
-            ZStack {
-                LazyVGrid(columns: gridItem, spacing: 10) {
-                    ForEach(0..<80, id: \.self) { index in
+        ZStack {
+            ScrollView(showsIndicators: false) {
+                descriptionBuild()
+                    .frame(
+                        minHeight: 100,
+                        alignment: .top
+                    )
+                
+                LazyVGrid(columns: gridItem, spacing: 5) {
+                    ForEach(0..<48, id: \.self) { index in
                         if !isTapped {
                             Circle()
                                 .overlay {
@@ -51,13 +56,9 @@ struct ProximityView: View {
                             if isEmptyCirclePosition(in: index) {
                                 Circle()
                                     .fill(Color(.systemBackground))
-                                    .frame(
-                                        maxWidth: UIScreen.main.bounds.width / 9,
-                                        maxHeight: UIScreen.main.bounds.height / 5
-                                    )
                                     .overlay {
                                         /**
-                                        index가
+                                         index가
                                          18~21, 26~29, 34~37, 42~45, 50-53, 58-61,
                                          일 때, 랜덤으로 한 곳에만 오버레이 한다.
                                          */
@@ -87,18 +88,19 @@ struct ProximityView: View {
                             } else {
                                 if checkIfEachSideToShow(in: index) == 1 {
                                     MiniFlower(tintColor: .yellow, budColor: .white, radian: 2)
+                                        .scaleEffect(1.3)
                                 } else if checkIfEachSideToShow(in: index) == 2 {
                                     FivePetalsFlower(
                                         petalOffset: 0,
                                         petalWidth: 40
                                     )
-                                        .fill(Color.red)
+                                    .fill(Color.red)
                                 } else if checkIfEachSideToShow(in: index) == 3 {
                                     TransformableFlower(
                                         petalOffset: 0,
                                         petalWidth: 20
                                     )
-                                        .fill(Color.purple)
+                                    .fill(Color.purple)
                                 } else if checkIfEachSideToShow(in: index) == 4 {
                                     FMFlower(tintColor: .orange, budColor: .yellow)
                                         .scaleEffect(0.5)
@@ -107,62 +109,57 @@ struct ProximityView: View {
                         }
                     }
                 }
-                
-                if gestaltVM.proximityPuzzleCleared {
-                        MiniFlower(tintColor: .yellow, budColor: .white, radian: 2)
-                            .modifier(ParticlesModifier(numberOfParticles: 10))
-                        
-                        FivePetalsFlower(petalOffset: 0, petalWidth: 40)
-                            .fill(Color.red)
-                            .frame(width: 100, height: 100)
-                            .modifier(ParticlesModifier(numberOfParticles: 10))
-                        
-                        TransformableFlower(
-                            petalOffset: 0,
-                            petalWidth: 20
-                        )
-                            .fill(Color.purple)
-                            .frame(width: 100, height: 100)
-                            .modifier(ParticlesModifier(numberOfParticles: 10))
-                    
-                        FMFlower(tintColor: .orange, budColor: .yellow)
-                            .scaleEffect(0.5)
-                            .modifier(ParticlesModifier(numberOfParticles: 10))
-                }
             }
-            .onAppear {
-                if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
-                    randomIndex = [
-                        Range(18...21).randomElement(),
-                        Range(26...29).randomElement(),
-                        Range(34...37).randomElement(),
-                        Range(42...45).randomElement(),
-                        Range(50...53).randomElement(),
-                        Range(58...61).randomElement()
-                    ]
-                        .randomElement()! ?? 0
-                    
-                    var res = randomIndex
-                    
-                    // get verticalPosition
-                    while res >= 8 {
-                        res -= 8
-                        verticalPosition += 1
-                    }
-                    
-                    res = randomIndex
-                    horizontalPosition = res % 8
-                }
+            
+            if gestaltVM.proximityPuzzleCleared {
+                MiniFlower(tintColor: .yellow, budColor: .white, radian: 2)
+                    .modifier(ParticlesModifier(numberOfParticles: 10))
+                
+                FivePetalsFlower(petalOffset: 0, petalWidth: 40)
+                    .fill(Color.red)
+                    .frame(width: 100, height: 100)
+                    .modifier(ParticlesModifier(numberOfParticles: 10))
+                
+                TransformableFlower(
+                    petalOffset: 0,
+                    petalWidth: 20
+                )
+                .fill(Color.purple)
+                .frame(width: 100, height: 100)
+                .modifier(ParticlesModifier(numberOfParticles: 10))
+                
+                FMFlower(tintColor: .orange, budColor: .yellow)
+                    .scaleEffect(0.5)
+                    .modifier(ParticlesModifier(numberOfParticles: 10))
             }
         }
-        .padding()
+        .padding(.horizontal, getPadding())
+        .onAppear {
+                randomIndex = [
+                    Range(18...21).randomElement(),
+                    Range(26...29).randomElement(),
+                    Range(34...37).randomElement()
+                ]
+                    .randomElement()! ?? 0
+                
+                var res = randomIndex
+                
+                // get verticalPosition
+                while res >= 8 {
+                    res -= 8
+                    verticalPosition += 1
+                }
+                
+                res = randomIndex
+                horizontalPosition = res % 8
+        }
         .onAppear {
             if !gestaltVM.isFirstDisplayedProximity {
                 isFirstDisplayed.toggle()
             }
         }
         .show(isActivated: $isFirstDisplayed) {
-            FMCustomCardView(style: .large()) {
+            FMCustomCardView(style: .normal()) {
                 VStack {
                     Text(
                         """
@@ -173,12 +170,12 @@ struct ProximityView: View {
                         so you can immediately understand what it means.
                         
                         Go ahead!
-                        Tap a Ball and get Your Badges!
                         """
                     )
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
+                    .padding()
 
                 }
                 .padding(24)
@@ -203,11 +200,11 @@ struct ProximityView: View {
             }
         }
         .show(isActivated: $gestaltVM.proximityPuzzleCleared) {
-            FMCustomCardView(style: .large()) {
+            FMCustomCardView(style: .normal()) {
                 VStack {
                     Text(
                         """
-                        Conguratulations!
+                        🎉 Conguratulations!
                         
                         You have cleared The Gestalt Principle of **Proximity**!
                         
@@ -217,13 +214,12 @@ struct ProximityView: View {
                         And, Yes!
                         There is garden divided into quarters,
                         each decorated with different flowers!
-                        
-                        And now you have a **Garden** badge!
                         """
                     )
                     .font(.title2)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 64)
+                    .padding()
 
                 }
                 .padding(24)
@@ -231,7 +227,9 @@ struct ProximityView: View {
             }
             .onDisappear {
                 withAnimation {
-                    gestaltVM.clearedPrinciples.append(Constants.Gestalt.PROXIMITY)
+                    if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
+                        gestaltVM.clearedPrinciples.append(Constants.Gestalt.PROXIMITY)
+                    }
                 }
             }
             .overlay(alignment: .bottom) {
@@ -254,6 +252,17 @@ struct ProximityView: View {
     }
     
     /**
+     가로모드에서 패딩을 맞춰주는 코드입니다.
+     */
+    private func getPadding() -> CGFloat {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            return UIScreen.main.bounds.width / 5
+        } else {
+            return 0
+        }
+    }
+    
+    /**
      index의 위치를 바탕으로 해당 인덱스가 비어있어야 하는 위치의 인덱스인지 연산한 후,  조건에 따라 비어있어야 하는 공간에서 true를 리턴
      */
     private func isEmptyCirclePosition(
@@ -271,7 +280,6 @@ struct ProximityView: View {
             || index == horizontalPosition + 8 * 9
             || index == horizontalPosition + 8 * 10 {
             return true
-            // 48 < 52 < 55 true, else false
         } else if index >= (verticalPosition) * 8, index < (verticalPosition + 1) * 8 {
             return true
         }
@@ -317,6 +325,32 @@ struct ProximityView: View {
             }
         }
         return 0
+    }
+    
+    @ViewBuilder
+    private func descriptionBuild() -> some View {
+        if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
+            Text("You have cleared this Principle!")
+                .bold()
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.accentColor)
+                .padding()
+        } else if !isTapped {
+            Text("Find a ball with Tap Message!")
+                .bold()
+                .multilineTextAlignment(.center)
+                .foregroundColor(.accentColor)
+                .font(.title)
+                .padding()
+        } else {
+            Text("The closer the objects are, the higher the relevance!\nNearby flowers are the same or deeply related.")
+                .bold()
+                .multilineTextAlignment(.center)
+                .foregroundColor(.accentColor)
+                .font(.title)
+                .padding()
+        }
     }
 }
 
