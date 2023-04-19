@@ -66,6 +66,37 @@ struct MainIntroView: View {
                             )
                         )
                     
+                    FMFlower(tintColor: .yellow, budColor: .brown)
+                        .position(
+                            CGPoint(
+                                x: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_WIDTH...Constants.ReactiveCGFloat.REACTIVE_WIDTH),
+                                y: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_HEIGHT...Constants.ReactiveCGFloat.REACTIVE_HEIGHT)
+                            )
+                        )
+                        .rotationEffect(
+                            .degrees(
+                                Double.random(in: 30...180)
+                            )
+                        )
+                    
+                    TransformableFlower(
+                        petalOffset: 0,
+                        petalWidth: 20
+                    )
+                    .fill(Color.purple)
+                    .frame(width: 100, height: 100)
+                    .position(
+                        CGPoint(
+                            x: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_WIDTH...Constants.ReactiveCGFloat.REACTIVE_WIDTH),
+                            y: CGFloat.random(in: -Constants.ReactiveCGFloat.REACTIVE_HEIGHT...Constants.ReactiveCGFloat.REACTIVE_HEIGHT)
+                        )
+                    )
+                    .rotationEffect(
+                        .degrees(
+                            Double.random(in: 30...180)
+                        )
+                    )
+                    
                     FivePetalsFlower(
                         petalOffset: -5,
                         petalWidth: 150

@@ -36,12 +36,12 @@ struct MainGridView: View {
                     0..<Constants.Gestalt.GESTALT_THEORIES.count,
                     id: \.self
                 ) { index in
-//                    "❖ Proximity", // garden
-//                    "👯 Similarity", // sunflower
-//                    "➿ Continuity", // rosex
-//                    "🧩 Closure", // tulip
-//                    "😶‍🌫️ Figure/Ground", // sakura
-//                    "❅ Prägnanz" // hibiscus
+    //                    "❖ Proximity", // garden
+    //                    "👯 Similarity", // sunflower
+    //                    "➿ Continuity", // rosex
+    //                    "🧩 Closure", // tulip
+    //                    "😶‍🌫️ Figure/Ground", // sakura
+    //                    "❅ Prägnanz" // hibiscus
                     switch Constants.Gestalt.GESTALT_THEORIES[index] {
                     case Constants.Gestalt.PROXIMITY:
                         NavigationLink {
@@ -112,6 +112,32 @@ struct MainGridView: View {
                     default:
                         Text("")
                     }
+                }
+            }
+            
+            if gestaltVM.clearedPrinciples.count == 6 {
+                Text("You've exprienced basics of The Gestalt Principles!")
+                    .bold()
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                Text("If you want to restart, press the Reset Button!")
+                    .bold()
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                NavigationLink {
+                    MainGuideView(gestaltVM: GestaltVM())
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    Text("Reset")
+                        .bold()
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.red)
+                        .padding()
                 }
             }
         }
