@@ -8,19 +8,19 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "FlowerMe",
+    name: "FloweredGestalts",
     platforms: [
         .iOS("15.2")
     ],
     products: [
         .iOSApplication(
-            name: "FlowerMe",
+            name: "FloweredGestalts",
             targets: ["AppModule"],
             bundleIdentifier: "com.Celan.Temp",
             teamIdentifier: "67M6ZS7KS6",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .earth),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.mint),
             supportedDeviceFamilies: [
                 .pad,
