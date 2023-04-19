@@ -28,6 +28,7 @@ struct MainIntroView: View {
                     } label: {
                         Text("Let's Begin!")
                             .padding()
+                            .foregroundColor(.white)
                             .font(.largeTitle)
                     }
                     .buttonStyle(.borderedProminent)

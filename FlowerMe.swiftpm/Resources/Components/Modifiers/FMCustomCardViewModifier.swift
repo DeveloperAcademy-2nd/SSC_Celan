@@ -20,7 +20,7 @@ struct FMCustomCardViewModifier: ViewModifier {
         .fill(Color.white)
         .frame(
             width: horizontalPadding,
-            height: verticalPadding != nil ? verticalPadding : horizontalPadding * 1.2
+            height: verticalPadding != nil ? verticalPadding : horizontalPadding * 1.3
         )
         .shadow(
             color: Color(.systemGray2).opacity(0.3),

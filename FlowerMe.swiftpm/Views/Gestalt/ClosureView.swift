@@ -53,7 +53,7 @@ struct ClosureView: View {
                     )
                     .foregroundColor(.primary)
                 }
-
+                
                 HStack(spacing: -(Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH - 25)) {
                     // Left
                     HalfFlowerView(
@@ -65,7 +65,7 @@ struct ClosureView: View {
                         // Guide Line
                         if gestaltVM.isClosurePuzzleDone
                             || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-
+                            
                         } else {
                             VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
                                 Petal()
@@ -75,7 +75,7 @@ struct ClosureView: View {
                                         height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
                                     )
                                     .rotationEffect(.degrees(270))
-
+                                
                                 Leaf()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
                                     .frame(
@@ -90,7 +90,7 @@ struct ClosureView: View {
                             }
                         }
                     }
-
+                    
                     // Right
                     HalfFlowerReversedView(
                         gestaltVM: gestaltVM,
@@ -100,7 +100,7 @@ struct ClosureView: View {
                     .overlay {
                         if gestaltVM.isClosurePuzzleDone
                             || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
-
+                            
                         } else {
                             VStack(spacing: Constants.ClosureFlowerCGFloat.CLOSURE_WIDTH / 6) {
                                 Petal()
@@ -110,7 +110,7 @@ struct ClosureView: View {
                                         height: Constants.ClosureFlowerCGFloat.CLOSURE_HEIGHT
                                     )
                                     .rotationEffect(.degrees(270))
-
+                                
                                 Leaf()
                                     .stroke(style: StrokeStyle(lineWidth: 4, dash: [10]))
                                     .frame(
@@ -130,14 +130,14 @@ struct ClosureView: View {
                         }
                     }
                 }
-
+                
                 // 꽃대
                 flowerStalkBuild()
                     .frame(
                         maxHeight: .infinity,
                         alignment: .bottom
                     )
-
+                
                 if gestaltVM.closurePuzzleCleared {
                     Text("🌷")
                         .font(.largeTitle)
@@ -246,6 +246,11 @@ struct ClosureView: View {
                 .buttonStyle(.borderedProminent)
                 .padding()
                 .padding()
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+                DismissButton()
             }
         }
     }

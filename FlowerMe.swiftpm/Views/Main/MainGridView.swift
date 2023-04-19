@@ -25,7 +25,7 @@ struct MainGridView: View {
             }
             
             Divider()
-                .padding(.vertical, 32)
+                .padding(.bottom, 32)
                 .padding()
             
             LazyVGrid(
@@ -139,6 +139,27 @@ struct MainGridView: View {
                         .foregroundColor(.red)
                         .padding()
                 }
+            } else {
+                VStack {
+                    Text("Once you learn principle through interaction, \n🎯 icon turns into a Flower icon like 🌺, 🌼")
+                        .bold()
+                        .font(.title2)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                    Text("And after you've done an interaction, \nYou should tap a Flower icon inside the dashed line to finish the interaction.")
+                        .bold()
+                        .font(.title2)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                    Text("You've done \(gestaltVM.clearedPrinciples.count) principles, \nand you have \(6 - gestaltVM.clearedPrinciples.count) to go.")
+                        .bold()
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                .padding(.top, 32)
             }
         }
         .overlay {
@@ -184,29 +205,10 @@ struct MainGridView: View {
                 .bold()
                 .font(.title2)
                 .multilineTextAlignment(.center)
-                .padding()
-                
+            
             Text("The more principles you learn, the more colorful the app will be.")
                 .bold()
                 .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-                
-            Text("Once you learn principle through interaction, \n🎯 icon turns into a Flower icon like 🌺, 🌼")
-                .bold()
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-            
-            Text("And after you've done an interaction, \nYou should tap a Flower icon inside the dashed line.")
-                .bold()
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-            
-            Text("\(gestaltVM.clearedPrinciples.count) down, \(6 - gestaltVM.clearedPrinciples.count) to go.")
-                .bold()
-                .font(.title3)
                 .multilineTextAlignment(.center)
                 .padding()
         }

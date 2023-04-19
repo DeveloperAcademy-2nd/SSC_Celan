@@ -67,8 +67,13 @@ struct FigureGroundView: View {
                     .modifier(ParticlesModifier(numberOfParticles: 24))
             }
         }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.FIGUREGROUND) {
+                DismissButton()
+            }
+        }
         .onAppear {
-            if !gestaltVM.isFirstDisplayedPragnanz {
+            if !gestaltVM.isFirstDisplayedFigrueGround {
                 isFirstDisplayed.toggle()
             }
         }

@@ -154,6 +154,11 @@ struct PragnanzView: View {
                     .modifier(ParticlesModifier())
             }
         }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PRAGNANZ) {
+                DismissButton()
+            }
+        }
         .onAppear {
             if !gestaltVM.isFirstDisplayedPragnanz {
                 isFirstDisplayed.toggle()

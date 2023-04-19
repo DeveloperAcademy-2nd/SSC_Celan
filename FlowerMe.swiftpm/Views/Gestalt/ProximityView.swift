@@ -133,6 +133,11 @@ struct ProximityView: View {
                     .modifier(ParticlesModifier(numberOfParticles: 10))
             }
         }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
+                DismissButton()
+            }
+        }
         .padding(.horizontal, getPadding())
         .onAppear {
                 randomIndex = [

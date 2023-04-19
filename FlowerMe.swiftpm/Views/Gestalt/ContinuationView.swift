@@ -53,6 +53,11 @@ struct ContinuationView: View {
                 .modifier(ParticlesModifier(numberOfParticles: 15))
             }
         }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
+                DismissButton()
+            }
+        }
         .onAppear {
             if !gestaltVM.isFirstDisplayedContinuity {
                 isFirstDisplayed.toggle()
@@ -174,6 +179,14 @@ struct ContinuationView: View {
                 .padding()
         } else if timeMax <= 0.4 {
             Text("Will our circle get interrupted by the other circle?")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .multilineTextAlignment(.center)
+                .padding()
+            
+        } else if timeMax >= 1.0 {
+            Text("Finally! The rose has bloom!")
                 .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)

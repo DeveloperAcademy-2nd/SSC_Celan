@@ -127,6 +127,11 @@ struct SimilarityView: View {
                 isFirstDisplayed.toggle()
             }
         }
+        .overlay(alignment: .bottom) {
+            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.SIMILARITY) {
+                DismissButton()
+            }
+        }
         .show(isActivated: $isFirstDisplayed) {
             FMCustomCardView(style: .normal()) {
                 VStack {
