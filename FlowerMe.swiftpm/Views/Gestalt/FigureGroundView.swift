@@ -62,9 +62,9 @@ struct FigureGroundView: View {
                             endPoint: .bottom
                         )
                     )
-                    .scaleEffect(0.6)
+                    .scaleEffect(0.8)
                     .frame(width: 150, height: 150)
-                    .modifier(ParticlesModifier(numberOfParticles: 12))
+                    .modifier(ParticlesModifier(numberOfParticles: 24))
             }
         }
         .onAppear {
@@ -82,7 +82,7 @@ struct FigureGroundView: View {
                         Here, You should long press the black flower to get its color back.
                         While You are long pressing the flower, it will become more clear, either.
                         
-                        But What would happen to the background flowers.
+                        But What would happen to the background flowers?
                         Will they be still clearly focused?
                         
                         Let's find out!
@@ -254,7 +254,7 @@ struct FigurePetalView: View {
                 if isLongPressing, blurIntensity > 0.0 {
                     withAnimation {
                         gestaltVM.backgroundBlurIntensity.send(
-                            gestaltVM.backgroundBlurIntensity.value - 0.3
+                            gestaltVM.backgroundBlurIntensity.value - 0.2
                         )
                     }
                 }

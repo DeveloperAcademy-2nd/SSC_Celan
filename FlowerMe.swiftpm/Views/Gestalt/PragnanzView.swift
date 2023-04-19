@@ -171,11 +171,10 @@ struct PragnanzView: View {
                         
                         Now grab the knob of the slider, and drag to the top.
                         While you are doing this task, you can relize that,
-                        
                         It really looks like a flower.
                         
                         Does it?
-                        Let's find out
+                        Let's take a closer look at the Flower!
                         """
                     )
                     .font(.title2)
@@ -216,13 +215,12 @@ struct PragnanzView: View {
                         You have cleared The Gestalt Principle of **Prägnanz**!
                         
                         As you can see, you really don't give a attention to little pieces.
-                        It is hard to be understand what it is.
+                        It is hard to be understand if we care all of them.
                         
-                        The Gestalt Principle of **Prägnanz** is also known as
-                        "the Principle of Good form".
+                        This principle is also known as "the Principle of Good form".
                         
                         It says that We prefer experiences that are simple and
-                        when we face some complicated figure, our brain can simplify it!
+                        when we face complicated figure, our brain can simplify it!
                         
                         Because of that specific ability, You can recognize that figure as a flower!
                         """
@@ -294,14 +292,14 @@ struct PragnanzView: View {
                .foregroundColor(.accentColor)
                .padding()
            
-       } else if total <= 120 { // 둘 중 하나가 움직이고 있을 때
+       } else if total <= 140 { // 둘 중 하나가 움직이고 있을 때
            Text("You know it is a Flower, right?")
                .bold()
                .font(.title)
                .foregroundColor(.accentColor)
                .padding()
            
-       } else if total <= 190 {
+       } else if total <= 200 {
            Text("You don't care that little but complicate pieces.")
                .bold()
                .font(.title)

@@ -138,8 +138,7 @@ struct SimilarityView: View {
                         Let me tell you that those flowers are slightly different.
                         And You should find a missing flowers color!
                         
-                        While You interact with flowers, you possibly know the color of
-                        the missing flower.
+                        While You interact with flowers, you possibly know the color of the missing flower.
                         
                         Long press the flowers, and find a missing flower!
                         """
@@ -181,7 +180,8 @@ struct SimilarityView: View {
                         You have cleared The Gestalt Principle of **Similarity**!
                         
                         You might noticed that missing flower is next to other yellow ones.
-                        So it is so natural to thinking like this: missing flower's color is yellow, too!
+                        So it is so natural to thinking like this:
+                        missing flower's color is yellow, too!
                         
                         Because our brain naturally makes a relationship between similar figures.
                         If Shape, Color or Size is similar, there's no difficult to think
@@ -271,7 +271,7 @@ struct SimilarityView: View {
                 .font(.title)
                 .padding()
         } else {
-            Text("Hold the colorless Buds to find a missing Sunflower!")
+            Text("Hold the colorless Flowers to find a missing Sunflower!")
                 .bold()
                 .multilineTextAlignment(.center)
                 .foregroundColor(.accentColor)

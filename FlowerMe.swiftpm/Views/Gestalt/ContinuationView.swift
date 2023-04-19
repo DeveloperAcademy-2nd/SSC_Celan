@@ -180,6 +180,14 @@ struct ContinuationView: View {
                 .multilineTextAlignment(.center)
                 .padding()
             
+        } else if timeMax > 0.95 {
+            Text("Just a little more!")
+                .bold()
+                .font(.title)
+                .foregroundColor(.accentColor)
+                .multilineTextAlignment(.center)
+                .padding()
+            
         } else if timeMax > 0.9 {
             Text("And if We keep going along the way, \nWe can bloom a rose!")
                 .bold()
@@ -238,7 +246,7 @@ struct ContinuationView: View {
                         )
                 )
                 .foregroundColor(
-                    timeMax < 0.4
+                    timeMax < 0.5
                     ? .primary
                     : .green
                 )
@@ -247,7 +255,6 @@ struct ContinuationView: View {
                     height: Constants.CurveCGFloat.CURVE_HEIGHT
                 )
                 .overlay {
-                    // TODO: - 나중에 timeMax 일 때, 탭해서 카드 띄우도록
                     if timeMax > 1.0 || gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
                         Button {
                             withAnimation {
@@ -257,7 +264,9 @@ struct ContinuationView: View {
                             }
                         } label: {
                             Circle()
-                                .fill(Color.yellow)
+                                .fill(
+                                    timeMax > 0.5 ? Color.yellow : Color.black
+                                )
                                 .padding()
                                 .frame(
                                     maxWidth: UIScreen.main.bounds.width / 16,
