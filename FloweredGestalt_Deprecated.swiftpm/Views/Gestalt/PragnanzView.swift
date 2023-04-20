@@ -267,7 +267,7 @@ struct PragnanzView: View {
     @ViewBuilder
     private func descriptionBuild() -> some View {
         if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PRAGNANZ) {
-            Text("You have cleared this principle!")
+            Text("You have cleared this principle!\nTap Your Flower Icon!")
                 .bold()
                 .font(.title)
                 .multilineTextAlignment(.center)

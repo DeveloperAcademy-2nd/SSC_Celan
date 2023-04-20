@@ -15,19 +15,56 @@ struct ContinuationView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack {
-                descriptionBuild()
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: 100,
-                        alignment: .top
-                    )
+                Text("The Gestalt Principle of \n**\(Constants.Gestalt.CONTINUITY)**")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()                    
                 
-                Spacer()
+                Spacer() 
                 
                 continuationFlowerBuild()
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .center
+                    )
+                    .overlay(alignment: .bottom) {
+                        descriptionBuild()
+                            .padding(32)
+                            .background {
+                                RoundedRectangle(
+                                    cornerRadius: 25.0,
+                                    style: .continuous
+                                )
+                                .stroke(style: .init(lineWidth: 4))
+                                .padding(.horizontal, 32)
+                            }
+                            .padding()
+                    }
                 
                 Spacer()
+//                
+//                descriptionBuild()
+//                    .padding(32)
+//                    .background {
+//                        RoundedRectangle(
+//                            cornerRadius: 25.0,
+//                            style: .continuous
+//                        )
+//                        .stroke(style: .init(lineWidth: 4))
+//                        .padding(.horizontal, 32)
+//                    }
+//                    .padding()
+//                
+//                Spacer()
             }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, getPadding())
+        .overlay(alignment: .bottomLeading) {
+
+                DismissButton()
+            
         }
         .overlay {
             if gestaltVM.continuityPuzzleCleared {
@@ -53,11 +90,7 @@ struct ContinuationView: View {
                 .modifier(ParticlesModifier(numberOfParticles: 15))
             }
         }
-        .overlay(alignment: .bottom) {
-            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
-                DismissButton()
-            }
-        }
+        
         .onAppear {
             if !gestaltVM.isFirstDisplayedContinuity {
                 isFirstDisplayed.toggle()
@@ -165,7 +198,6 @@ struct ContinuationView: View {
     private func descriptionBuild() -> some View {
         if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CONTINUITY) {
             Text("You have cleared this Principle!")
-                .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
@@ -179,15 +211,13 @@ struct ContinuationView: View {
                 .padding()
         } else if timeMax <= 0.4 {
             Text("Will our circle get interrupted by the other circle?")
-                .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
                 .padding()
             
         } else if timeMax >= 1.0 {
-            Text("Finally! The rose has bloom!")
-                .bold()
+            Text("Finally! \nThe rose has bloom!")
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
@@ -195,7 +225,6 @@ struct ContinuationView: View {
             
         } else if timeMax > 0.95 {
             Text("Just a little more!")
-                .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
@@ -203,21 +232,18 @@ struct ContinuationView: View {
             
         } else if timeMax > 0.9 {
             Text("And if We keep going along the way, \nWe can bloom a rose!")
-                .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
                 .padding()
         } else if timeMax > 0.7 {
-            Text("As you saw, our circle can continue its way, \nno matter the other circle's way.")
-                .bold()
+            Text("As you saw, our circle can continue its way, \n**no matter the other circle's way**.")
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
                 .padding()
         } else if timeMax > 0.4 {
             Text("Look, The other circle is going along dashed line.")
-                .bold()
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
@@ -361,6 +387,14 @@ struct ContinuationView: View {
                             .foregroundColor(.accentColor)
                     }
                 }
+        }
+    }
+    
+    private func getPadding() -> CGFloat {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            return UIScreen.main.bounds.width / 5
+        } else {
+            return 0
         }
     }
 }

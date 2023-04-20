@@ -42,6 +42,13 @@ struct FigureGroundView: View {
                 
                 FigurePetalView(gestaltVM: gestaltVM)
             }
+            .overlay(alignment: .top) {
+                Text("The Gestalt Principle of \n**\(Constants.Gestalt.FIGUREGROUND)**")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+            }
         }
         .overlay {
             if gestaltVM.figureGroundPuzzleCleared {
@@ -67,10 +74,10 @@ struct FigureGroundView: View {
                     .modifier(ParticlesModifier(numberOfParticles: 24))
             }
         }
-        .overlay(alignment: .bottom) {
-            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.FIGUREGROUND) {
+        .overlay(alignment: .bottomLeading) {
+
                 DismissButton()
-            }
+            
         }
         .onAppear {
             if !gestaltVM.isFirstDisplayedFigrueGround {
@@ -127,7 +134,7 @@ struct FigureGroundView: View {
                         """
                         💐 Conguratulations!
                         
-                        You have cleared The Gestalt Principle of **Figure/Ground**!
+                        You have cleared The Gestalt Principle of **Figure And Ground**!
                         
                         According to this principle,
                         you can recognize things as either being in the foreground or the background.
@@ -312,8 +319,7 @@ struct FigurePetalView: View {
                     .overlay(alignment: .top) {
                         if !gestaltVM.clearedPrinciples.contains(Constants.Gestalt.FIGUREGROUND) {
                             if blurIntensity > 8.0 { // maximum
-                                Text("Press and hold the black flower \nto get its original color!")
-                                    .bold()
+                                Text("**Press and hold the black flower** \nto get its original color!")
                                     .font(.title)
                                     .foregroundColor(.accentColor)
                                     .multilineTextAlignment(.center)
@@ -327,14 +333,12 @@ struct FigurePetalView: View {
                                     .padding()
                             } else if blurIntensity <= 5.5 { // blooming
                                 Text("Look! Your Sakura is blooming! \nBut it's still blurred!")
-                                    .bold()
                                     .font(.title)
                                     .foregroundColor(.accentColor)
                                     .multilineTextAlignment(.center)
                                     .padding()
                             } else if blurIntensity <= 8.0 {
                                 Text("Keep Holding! \nYour Flower is about to bloom!")
-                                    .bold()
                                     .font(.title)
                                     .foregroundColor(.accentColor)
                                     .multilineTextAlignment(.center)
@@ -342,7 +346,6 @@ struct FigurePetalView: View {
                             }
                         } else {
                             Text("You have cleared this principle!")
-                                .bold()
                                 .font(.title)
                                 .foregroundColor(.accentColor)
                                 .multilineTextAlignment(.center)
@@ -353,28 +356,24 @@ struct FigurePetalView: View {
                     .overlay(alignment: .bottom) {
                         if blurIntensity > 8.0 { // maximum
                             Text("You should focus on your flower.")
-                                .bold()
                                 .font(.title)
                                 .foregroundColor(.accentColor)
                                 .multilineTextAlignment(.center)
                                 .padding()
                         } else if blurIntensity <= 2.0 { // minimum
-                            Text("Finally, You can get Sakura colors back!")
-                                .bold()
+                            Text("Finally, You get Sakura colors back!")
                                 .font(.title)
                                 .foregroundColor(.accentColor)
                                 .multilineTextAlignment(.center)
                                 .padding()
                         } else if blurIntensity <= 5.5 { // blooming
                             Text("Let's make it more clear!")
-                                .bold()
                                 .font(.title)
                                 .foregroundColor(.accentColor)
                                 .multilineTextAlignment(.center)
                                 .padding()
                         } else if blurIntensity <= 8.0 {
                             Text("What color is it? Yellow? Pink?")
-                                .bold()
                                 .font(.title)
                                 .foregroundColor(.accentColor)
                                 .multilineTextAlignment(.center)

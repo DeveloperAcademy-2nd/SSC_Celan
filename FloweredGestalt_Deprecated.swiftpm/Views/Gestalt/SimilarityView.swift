@@ -237,7 +237,7 @@ struct SimilarityView: View {
     @ViewBuilder
     private func descriptionBuild() -> some View {
         if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.SIMILARITY) {
-            Text("You have cleared this Principle!")
+            Text("You have cleared this Principle!\nTap Your Flower Icon!")
                 .bold()
                 .font(.title)
                 .multilineTextAlignment(.center)
@@ -276,7 +276,7 @@ struct SimilarityView: View {
                 .font(.title)
                 .padding()
         } else {
-            Text("Hold the colorless Flowers to find a missing Sunflower!")
+            Text("Long press the black Flowers to find a missing Sunflower!\nWhen You color all black flowers, you can find that missing flower.")
                 .bold()
                 .multilineTextAlignment(.center)
                 .foregroundColor(.accentColor)

@@ -18,12 +18,11 @@ struct ClosureView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            descriptionBuild()
-                .frame(
-                    maxWidth: .infinity,
-                    minHeight: 100,
-                    alignment: .top
-                )
+            // MARK: - Head
+            Text("The Gestalt Principle of \n**\(Constants.Gestalt.CLOSURE)**")
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .padding()
             
             ZStack {
                 if gestaltVM.isClosurePuzzleDone
@@ -144,8 +143,25 @@ struct ClosureView: View {
                         .modifier(ParticlesModifier())
                 }
             }
+            .frame(maxWidth: .infinity)
             .scaleEffect(UIScreen.main.bounds.width > UIScreen.main.bounds.height ? 0.8 : 1.0)
+            .padding()
+            
+            // MARK: - Description
+            descriptionBuild()
+                .padding(32)
+                .background {
+                    RoundedRectangle(
+                        cornerRadius: 25.0,
+                        style: .continuous
+                    )
+                    .stroke(style: .init(lineWidth: 4))
+                    .padding(.horizontal, 32)
+                }
+            
         }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, getPadding())
         .onAppear {
             if !gestaltVM.isFirstDisplayedClosure {
                 isFirstDisplayed.toggle()
@@ -248,10 +264,8 @@ struct ClosureView: View {
                 .padding()
             }
         }
-        .overlay(alignment: .bottom) {
-            if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.CLOSURE) {
+        .overlay(alignment: .bottomLeading) {
                 DismissButton()
-            }
         }
     }
     
@@ -294,8 +308,7 @@ struct ClosureView: View {
     @ViewBuilder
     private func descriptionBuild() -> some View {
         if gestaltVM.closurePuzzle.count == 2 {
-            Text("As You fit the pieces, It has gap and it draws a Tulip!")
-                .bold()
+            Text("As You fit the pieces, \nIt has gap and it draws a Tulip!")
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
@@ -318,19 +331,26 @@ struct ClosureView: View {
                .padding()
             
        } else if !gestaltVM.isClosurePuzzleDone {
-            Text("Tap the pieces to make them fit into the space!")
-                .bold()
+            Text("**Tap the pieces** to make them fit into the space!")
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .padding()
            
         } else if gestaltVM.isClosurePuzzleDone {
-            Text("And You did it! You finally make a tulip with a gaps!")
-                .bold()
+            Text("And You did it! \nYou finally make a tulip with a gaps!")
                 .font(.title)
                 .foregroundColor(.accentColor)
                 .multilineTextAlignment(.center)
                 .padding()
         }
     }
+    
+    private func getPadding() -> CGFloat {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            return UIScreen.main.bounds.width / 5
+        } else {
+            return 0
+        }
+    }
+    
 }
