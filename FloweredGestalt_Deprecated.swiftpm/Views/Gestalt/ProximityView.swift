@@ -208,12 +208,12 @@ struct ProximityView: View {
             FMCustomCardView(style: .normal()) {
                 VStack {
                     Text(
-                        """
+                         """
                         🎉 Conguratulations!
                         
                         You have cleared The Gestalt Principle of **Proximity**!
                         
-                        The Gestalt Principle of Proximity states that
+                         The Gestalt Principle of Proximity states that
                         the closer things are, the more related things seem.
                         
                         And, Yes!
@@ -335,7 +335,7 @@ struct ProximityView: View {
     @ViewBuilder
     private func descriptionBuild() -> some View {
         if gestaltVM.clearedPrinciples.contains(Constants.Gestalt.PROXIMITY) {
-            Text("You have cleared this Principle!")
+            Text("You have cleared this Principle!\nTap Your Flower Icon!")
                 .bold()
                 .font(.title)
                 .multilineTextAlignment(.center)
